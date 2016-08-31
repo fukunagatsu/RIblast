@@ -31,13 +31,13 @@ RIblast consists of database construction search step and rna interactin search 
         -s INT    Lookup table size of short string search [default: 8]
         -w INT    The constraint of maximal distance between the bases that form base pairs [default: 70]
         -d INT    Minimum accessible length for accessibility approximation [defualt:5]
-
-  cout << "ris: search RNA-RNA interaction between a query and database sequences\n";
-  cout << "\n";
-  cout << "RIblast ris [-i InputFastaFile] [-o OutputFileName] [-d DatabaseFileName]\n";
-  cout << "            [-l MaxSeedLength] [-e HybridizationEnergyThreshold] [-f InteractionEnergyThreshold]\n";
-  cout << "            [-x DropOutLengthInGappedExtension] [-y DropOutLengthInUngappedExtension]\n";
-  cout << "\n";
+        
+    ris: search RNA-RNA interaction between a query and database sequences
+    
+    RIblast ris [-i InputFastaFile] [-o OutputFileName] [-d DatabaseFileName]
+                [-l MaxSeedLength] [-e HybridizationEnergyThreshold] [-f InteractionEnergyThreshold]
+                [-x DropOutLengthInGappedExtension] [-y DropOutLengthInUngappedExtension]
+                
   cout << "  Options:\n";
   cout << " (Required)\n";
   cout << "    -i STR    an RNA sequence in single FASTA format\n";
