@@ -57,7 +57,7 @@ RIblast outputs detected interactions as follows.
 An interaction is expressed in four lines, and blank line is inserted between each interaction.
 The first, second, third and fourth line of an interaction describes name of query RNA, name of target RNA, interaction energy of the interaction, and interacted positions, respectively.
 
-Example;
+Example  
 Query:qrna  
 Target:taget_rna1  
 Energy:-7.41945  
