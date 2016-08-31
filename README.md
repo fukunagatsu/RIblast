@@ -21,19 +21,17 @@ RIblast consists of database construction search step and rna interactin search 
 
      RIblast db [-i InputFastaFile] [-o OutputDbName] [-r RepeatMaskingStyle]  
                 [-s LookupTableSize] [-w MaximalSpan] [-d MinAccessibleLength]  
-  cout << "\n";
-  cout << "  Options:\n";
-  cout << " (Required)\n";
-  cout << "    -i STR    RNA sequences in FASTA format\n";
-  cout << "    -o STR    The database name\n";
-  cout << "\n";
-  cout << " (Optional)\n";
-  cout << "    -r INT    Designation of repeat masking style 0:hard-masking, 1:soft-masking, 2:hard-masking [default:0]\n";
-  cout << "    -s INT    Lookup table size of short string search [default: 8]\n";
-  cout << "    -w INT    The constraint of maximal distance between the bases that form base pairs [default: 70]\n";
-  cout << "    -d INT    Minimum accessible length for accessibility approximation [defualt:5]\n";
-  cout << "\n";
-  cout << "\n";
+    Options:
+    (Required)
+        -i STR    RNA sequences in FASTA format
+        -o STR    The database name
+        
+    (Optional) 
+        -r INT    Designation of repeat masking style 0:hard-masking, 1:soft-masking, 2:hard-masking [default:0]
+        -s INT    Lookup table size of short string search [default: 8]
+        -w INT    The constraint of maximal distance between the bases that form base pairs [default: 70]
+        -d INT    Minimum accessible length for accessibility approximation [defualt:5]
+
   cout << "ris: search RNA-RNA interaction between a query and database sequences\n";
   cout << "\n";
   cout << "RIblast ris [-i InputFastaFile] [-o OutputFileName] [-d DatabaseFileName]\n";
