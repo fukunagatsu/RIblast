@@ -21,6 +21,7 @@ RIblast consists of database construction search step and rna interactin search 
 
      RIblast db [-i InputFastaFile] [-o OutputDbName] [-r RepeatMaskingStyle]  
                 [-s LookupTableSize] [-w MaximalSpan] [-d MinAccessibleLength]  
+   
     Options:
     (Required)
         -i STR    RNA sequences in FASTA format
@@ -38,18 +39,18 @@ RIblast consists of database construction search step and rna interactin search 
                 [-l MaxSeedLength] [-e HybridizationEnergyThreshold] [-f InteractionEnergyThreshold]
                 [-x DropOutLengthInGappedExtension] [-y DropOutLengthInUngappedExtension]
                 
-  cout << "  Options:\n";
-  cout << " (Required)\n";
-  cout << "    -i STR    an RNA sequence in single FASTA format\n";
-  cout << "    -o STR    Output file name\n";
-  cout << "    -d STR    The database name\n";
-  cout << "\n";
-  cout << " (Optional)\n";
-  cout << "    -l INT    Max size of seed length [default:20]\n";
-  cout << "    -e INT    Interactin energy threshold for seed search [default: -6.5]\n";
-  cout << "    -f INT    Hybridization energy threshold for removal of the interaction candidate before gapped extension [default: -3.05]\n";
-  cout << "    -x INT    DropOut Length in gapped extension [defualt:18]\n";
-  cout << "    -y INT    DropOut Length in gappless extension [defualt:5]\n";
+    Options:
+    (Required)
+        -i STR    an RNA sequence in single FASTA format
+        -o STR    Output file name
+        -d STR    The database name
+        
+    (Optional)
+        -l INT    Max size of seed length [default:20]
+        -e INT    Interactin energy threshold for seed search [default: -6.5]
+        -f INT    Hybridization energy threshold for removal of the interaction candidate before gapped extension [default: -3.05]
+        -x INT    DropOut Length in gapped extension [defualt:18]
+        -y INT    DropOut Length in gappless extension [defualt:5]
 
 ##License
 This software is released under the MIT License, see LICENSE.txt.
