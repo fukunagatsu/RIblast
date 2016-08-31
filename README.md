@@ -19,7 +19,7 @@ RIblast consists of database construction search step and rna interactin search 
 ##Command and Options
     db: convert a FASTA file to RIblast database files  
 
-    RIblast db [-i InputFastaFile] [-o OutputDbName] [-r RepeatMaskingStyle]  
+     RIblast db [-i InputFastaFile] [-o OutputDbName] [-r RepeatMaskingStyle]  
                 [-s LookupTableSize] [-w MaximalSpan] [-d MinAccessibleLength]  
   cout << "\n";
   cout << "  Options:\n";
