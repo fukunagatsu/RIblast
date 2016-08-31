@@ -18,6 +18,8 @@ void GappedExtension::Run(vector<Hit> &candidate, vector<unsigned char> &query_s
     extension(candidate[x], query_seq, db_seq, query_accessibility, query_conditional_accessibility, db_accessibility, db_conditional_accessibility, 0);
     extension(candidate[x], query_seq, db_seq, query_accessibility, query_conditional_accessibility, db_accessibility, db_conditional_accessibility, 1);
     double energy = candidate[x].GetEnergy();
+    int qlength = candidate[x].GetQLength();
+    
     int dbseq_length = db_seq_length[candidate[x].GetDbSeqId()];
     energy += CalcDangleEnergy(candidate[x].GetQSp(), candidate[x].GetDbSp(), 0 ,query_seq, db_seq, dbseq_length);
     energy += CalcDangleEnergy(candidate[x].GetQSp()+candidate[x].GetQLength()-1, candidate[x].GetDbSp()+candidate[x].GetDbLength()-1, 1 ,query_seq, db_seq, dbseq_length);
@@ -193,11 +195,11 @@ void GappedExtension::extension(Hit &candidate, vector<unsigned char> &query_seq
     if(max_q_extension != MAX_EXTENSION && max_db_extension != MAX_EXTENSION){break;}
   }
  
-  if(q_start-min_q_start != 0 && db_start-min_db_start != 0){
+  if(q_length-min_q_length != 0 && db_length-min_db_length != 0){
     if(flag == 0){
       traceback(candidate,matrix_c, q_start-min_q_start, q_start, db_start-min_db_start,db_start, flag);
     }else{
-      traceback(candidate,matrix_c, min_q_start-q_start ,q_start, min_db_start-db_start ,db_start, flag);
+      traceback(candidate,matrix_c, min_q_length-q_length ,q_start, min_db_length-db_length ,db_start, flag);
     }
   }
   candidate.SetDbSeqIdStart(min_db_seq_id_start);
