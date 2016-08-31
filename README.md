@@ -1,5 +1,5 @@
 # RIblast
-RIblast is ultrafast RNA-RNA interaction prediction software for comprehensive lncRNA interactome analysis based on seed-and-extension algorithm
+RIblast is ultrafast RNA-RNA interaction prediction software based on seed-and-extension algorithm for comprehensive lncRNA interactome analysis.
 
 ##Version
 Version 1.0.0 (2016/08/31)
