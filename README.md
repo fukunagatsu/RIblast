@@ -53,15 +53,20 @@ RIblast consists of database construction search step and rna interactin search 
         -y INT    DropOut Length in gappless extension [defualt:5]
 
 ##Output file format
-    Query:ENST00000448587.1|ENSG00000223573.2|OTTHUMG00000150390.2|OTTHUMT00000317918.1|TINCR-001|TINCR|3733|
-    Target:ENST00000263461.6|ENSG00000120008.11|OTTHUMG00000019171.4|OTTHUMT00000050707.2|WDR11-001|WDR11|4732|UTR5:1-246|CDS:247-3921|UTR3:3922-4732|
-    Energy:-7.41945
-    (1274,4730) (1275,4729) (1276,4728) (1277,4727) (1278,4726) (1279,4725) (1280,4724) (1281,4723) 
+RIblast outputs detected interactions as follows.
+An interaction is expressed in four lines, and blank line is inserted between each interaction.
+The first, second, third and fourth line of an interaction describes name of query RNA, name of target RNA, interaction energy of the interaction, and interacted positions, respectively.
 
-    Query:ENST00000448587.1|ENSG00000223573.2|OTTHUMG00000150390.2|OTTHUMT00000317918.1|TINCR-001|TINCR|3733|
-    Target:ENST00000263461.6|ENSG00000120008.11|OTTHUMG00000019171.4|OTTHUMT00000050707.2|WDR11-001|WDR11|4732|UTR5:1-246|CDS:247-3921|UTR3:3922-4732|
-    Energy:-5.9724
-    (1344,4730) (1345,4729) (1346,4728) (1347,4727) (1348,4726) (1349,4725) (1350,4724) 
+Example;
+Query:qrna  
+Target:taget_rna1  
+Energy:-7.41945  
+(4,30) (5,29) (6,28) (7,27) (8,26) (9,25) (10,24) (11,23)  
+
+Query:qrna  
+Target:taget_rna2  
+Energy:-5.9724  
+(72,185) (73,184) (74,183) (77,176) (78,175) (79,174) (80,173) (81,172) (82,171) (83,170) 
 
 ##License
 This software is released under the MIT License, see LICENSE.txt.
