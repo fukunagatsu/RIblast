@@ -33,7 +33,7 @@ void PrintUsage() {
   cout << "    -o STR    The database name\n";
   cout << "\n";
   cout << " (Optional)\n";
-  cout << "    -r INT    Designation of repeat masking style 0:hard-masking, 1:soft-masking, 2:hard-masking [default:0]\n";
+  cout << "    -r INT    Designation of repeat masking style 0:hard-masking, 1:soft-masking, 2:no-masking [default:0]\n";
   cout << "    -s INT    Lookup table size of short string search [default: 8]\n";
   cout << "    -w INT    The constraint of maximal distance between the bases that form base pairs [default: 70]\n";
   cout << "    -d INT    Minimum accessible length for accessibility approximation [defualt:5]\n";
@@ -53,10 +53,10 @@ void PrintUsage() {
   cout << "\n";
   cout << " (Optional)\n";
   cout << "    -l INT    Max size of seed length [default:20]\n";
-  cout << "    -e INT    Interactin energy threshold for seed search [default: -6.5]\n";
-  cout << "    -f INT    Hybridization energy threshold for removal of the interaction candidate before gapped extension [default: -3.05]\n";
-  cout << "    -x INT    DropOut Length in gapped extension [defualt:18]\n";
-  cout << "    -y INT    DropOut Length in gappless extension [defualt:5]\n";
+  cout << "    -e INT    Hybridization energy threshold for seed search [default: -6.5]\n";
+  cout << "    -f INT    Interaction energy threshold for removal of the interaction candidate before gapped extension [default: -3.05]\n";
+  cout << "    -x INT    Dropout Length in gapped extension [defualt:18]\n";
+  cout << "    -y INT    Dropout Length in ungapped extension [defualt:5]\n";
 }
 
 int main(int argc, char* argv[]) {
