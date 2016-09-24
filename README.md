@@ -28,7 +28,7 @@ RIblast consists of database construction search step and rna interactin search 
         -o STR    The database name
         
     (Optional) 
-        -r INT    Designation of repeat masking style 0:hard-masking, 1:soft-masking, 2:hard-masking [default:0]
+        -r INT    Designation of repeat masking style 0:hard-masking, 1:soft-masking, 2:no-masking [default:0]
         -s INT    Lookup table size of short string search [default: 8]
         -w INT    The constraint of maximal distance between the bases that form base pairs [default: 70]
         -d INT    Minimum accessible length for accessibility approximation [defualt:5]
@@ -47,8 +47,8 @@ RIblast consists of database construction search step and rna interactin search 
         
     (Optional)
         -l INT    Max size of seed length [default:20]
-        -e INT    Interactin energy threshold for seed search [default: -6.5]
-        -f INT    Hybridization energy threshold for removal of the interaction candidate before gapped extension [default: -3.05]
+        -e INT    Hybridization energy threshold for seed search [default: -6.5]
+        -f INT    Interaction energy threshold for removal of the interaction candidate before gapped extension [default: -3.05]
         -x INT    DropOut Length in gapped extension [defualt:18]
         -y INT    DropOut Length in gappless extension [defualt:5]
 
