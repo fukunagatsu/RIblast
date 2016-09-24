@@ -50,7 +50,7 @@ RIblast consists of database construction search step and rna interactin search 
         -e INT    Hybridization energy threshold for seed search [default: -6.5]
         -f INT    Interaction energy threshold for removal of the interaction candidate before gapped extension [default: -3.05]
         -x INT    DropOut Length in gapped extension [defualt:18]
-        -y INT    DropOut Length in gappless extension [defualt:5]
+        -y INT    DropOut Length in ungapped extension [defualt:5]
 
 ##Output file format
 RIblast outputs detected interactions as follows.
