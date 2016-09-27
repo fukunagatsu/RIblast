@@ -55,9 +55,12 @@ void FastafileReader::ReadFastafile(string input_file_name, string &sequence, st
   name = buffer.substr(1,buffer.size()-1);
   sequence = "";
   while(getline(fp,buffer)){
-    if(buffer.substr(buffer.size()-2,2) == "\r\n"){
-      buffer.erase(buffer.size()-2,2);
-    }else if(buffer[buffer.size()-1] == '\r' || buffer[buffer.size()-1] == '\n'){
+    if(buffer.size()>=2){
+      if(buffer.substr(buffer.size()-2,2) == "\r\n"){
+	buffer.erase(buffer.size()-2,2);
+      }
+    }
+    if(buffer[buffer.size()-1] == '\r' || buffer[buffer.size()-1] == '\n'){
       buffer.erase(buffer.size()-1,1);
     }
     sequence = sequence + buffer;

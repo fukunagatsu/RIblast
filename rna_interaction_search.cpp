@@ -114,7 +114,6 @@ void RnaInteractionSearch::ExtendWithoutGap(const RnaInteractionSearchParameters
 	}
       }
     }
-
   }
   hit_result.erase(remove_if(hit_result.begin(), hit_result.end(), CheckFlag()), hit_result.end());
   GetBasePair(hit_result, query_encoded_sequence);
@@ -123,7 +122,6 @@ void RnaInteractionSearch::ExtendWithoutGap(const RnaInteractionSearchParameters
 void RnaInteractionSearch::ExtendWithGap(const RnaInteractionSearchParameters parameters, vector<Hit> &hit_result, vector<unsigned char> &query_encoded_sequence, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility){
   GappedExtension gapped_extension(parameters.GetMinAccessibleLength(), parameters.GetDropOutLengthWGap());
   gapped_extension.Run(hit_result, query_encoded_sequence, _db_seq, query_accessibility, query_conditional_accessibility, _db_accessibility, _db_conditional_accessibility, _db_seq_length);
-
   for(int i = 1; i<hit_result.size();i++){
     hit_result[i].SortBasePair();
   }
@@ -144,19 +142,21 @@ void RnaInteractionSearch::Output(const RnaInteractionSearchParameters parameter
     cout << "Error: can't open output_file:"+parameters.GetOutputFilename()+"." <<endl;
     exit(1);
   }
+  ofs << "Id,Query name, Target name, Energy, BasePair"<< endl;
   for(int i = 0; i< hit_result.size(); i++){
+    ofs << i << ",";
     int id = hit_result[i].GetDbSeqId();
     int length = _db_seq_length[id];
     int seq_start_position = _db_seq_start_position[id];
-    ofs << "Query:" << q_name << endl;
-    ofs << "Target:" << _db_seq_name[id] << endl;
-    ofs << "Energy:" << hit_result[i].GetEnergy() << endl;
+    ofs << q_name << ",";
+    ofs << _db_seq_name[id] << ",";
+   
+    ofs << hit_result[i].GetEnergy() << ",";
     int basepair_length = hit_result[i].GetBasePairLength();
     for(int j = 0; j<basepair_length;j++){
       int dbpos = (length-1) - ( hit_result[i].GetBasePairSecond(j)- seq_start_position);
-      ofs << "(" << hit_result[i].GetBasePairFirst(j) << "," << dbpos << ") " ;
+      ofs << "(" << hit_result[i].GetBasePairFirst(j) << ":" << dbpos << ") " ;
     }
-    ofs << endl;
     ofs << endl;
   }
   /*if(hit_result.size() != 0){

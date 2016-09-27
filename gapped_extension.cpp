@@ -17,11 +17,13 @@ void GappedExtension::Run(vector<Hit> &candidate, vector<unsigned char> &query_s
   for(int x = 0; x < candidate.size(); x++){
     extension(candidate[x], query_seq, db_seq, query_accessibility, query_conditional_accessibility, db_accessibility, db_conditional_accessibility, 0);
     extension(candidate[x], query_seq, db_seq, query_accessibility, query_conditional_accessibility, db_accessibility, db_conditional_accessibility, 1);
+    
     double energy = candidate[x].GetEnergy();
     int qlength = candidate[x].GetQLength();
-    
     int dbseq_length = db_seq_length[candidate[x].GetDbSeqId()];
+
     energy += CalcDangleEnergy(candidate[x].GetQSp(), candidate[x].GetDbSp(), 0 ,query_seq, db_seq, dbseq_length);
+
     energy += CalcDangleEnergy(candidate[x].GetQSp()+candidate[x].GetQLength()-1, candidate[x].GetDbSp()+candidate[x].GetDbLength()-1, 1 ,query_seq, db_seq, dbseq_length);
     candidate[x].SetEnergy(energy);
   }
@@ -222,8 +224,8 @@ double GappedExtension::CalcDangleEnergy(int q_pos, int db_pos, int flag, vector
   if (type != 0) {
     if(flag == 0){
       if (q_pos>0)x += dangle5_37[type][GetChar(query_seq,q_pos-1)];
-      if (db_pos>0) x += dangle3_37[type][GetChar(db_seq,db_pos-1)];
-      if( db_pos == 0 && type>2){
+      if (db_pos>0 && db_seq[db_pos-1]!=0) x += dangle3_37[type][GetChar(db_seq,db_pos-1)];
+      if( (db_pos == 0 || db_seq[db_pos-1]==0) && type>2){
 	x += TerminalAU;
       }
     }else{
