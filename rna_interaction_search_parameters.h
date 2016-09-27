@@ -38,10 +38,10 @@ class RnaInteractionSearchParameters{
     _maximal_span = 0;
      _min_accessible_length = 0;
     _max_seed_length = 20;
-    _hybrid_energy_threshold = -6.5;
-    _interaction_energy_threshold = -3.059;
+    _hybrid_energy_threshold = -6.0;
+    _interaction_energy_threshold = -4;
     _drop_out_length_wo_gap = 5;
-    _drop_out_length_w_gap = 18;
+    _drop_out_length_w_gap = 16;
   }
   void SetParameters(int argc, char* argv[]);
   void SetDbParameters();
