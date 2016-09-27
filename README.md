@@ -64,8 +64,8 @@ Id,Query name, Target name, Energy, BasePair
 ##License
 This software is released under the MIT License, see LICENSE.txt.
 
-##Changelogs
-2016/09/27 Version 1.0.1 bug fix: I fixed a bug in loading fastafile and calculation of dangling energy. I also changed output file format.
+##Changelogs  
+2016/09/27 Version 1.0.1 bug fix: I fixed a bug in loading fastafile and calculation of dangling energy. I also changed output file format.  
 2016/08/31 Version 1.0.0 was released.
 
 ## Reference
