@@ -2,7 +2,7 @@
 RIblast is ultrafast RNA-RNA interaction prediction software based on seed-and-extension algorithm for comprehensive lncRNA interactome analysis.
 
 ##Version
-Version 1.0.0 (2016/08/31)
+Version 1.0.1 (2016/09/27)
 
 ##Acknowledgements
 We used BL* energy model as RNA secondary structure energy model.
@@ -47,31 +47,25 @@ RIblast consists of database construction search step and rna interactin search 
         
     (Optional)
         -l INT    Max size of seed length [default:20]
-        -e INT    Hybridization energy threshold for seed search [default: -6.5]
-        -f INT    Interaction energy threshold for removal of the interaction candidate before gapped extension [default: -3.05]
-        -x INT    DropOut Length in gapped extension [defualt:18]
+        -e INT    Hybridization energy threshold for seed search [default: -6.0]
+        -f INT    Interaction energy threshold for removal of the interaction candidate before gapped extension [default: -4.0]
+        -x INT    DropOut Length in gapped extension [defualt:16]
         -y INT    DropOut Length in ungapped extension [defualt:5]
 
 ##Output file format
 RIblast outputs detected interactions as follows.
-An interaction is expressed in four lines, and blank line is inserted between each interaction.
-The first, second, third and fourth line of an interaction describes name of query RNA, name of target RNA, interaction energy of the interaction, and interacted positions ([position in query],[position in target]), respectively.
+An interaction is expressed in five columns.The first, second, third, fourth and fifth column of an interaction describes intearction id, name of query RNA, name of target RNA, interaction energy of the interaction, and interacted positions ([position in query]:[position in target]), respectively.
 
 Example  
-Query:qrna  
-Target:taget_rna1  
-Energy:-7.41945  
-(4,30) (5,29) (6,28) (7,27) (8,26) (9,25) (10,24) (11,23)  
-
-Query:qrna  
-Target:taget_rna2  
-Energy:-9.9724  
-(72,185) (73,184) (74,183) (77,176) (78,175) (79,174) (80,173) (81,172) (82,171) (83,170) 
+Id,Query name, Target name, Energy, BasePair  
+0,qrna,target_rna1,-7.41945,(4:30) (5:29) (6:28) (7:27) (8:26) (9:25) (10:24) (11:23)  
+1,qrna,target_rna2,-9.73221,(72:185) (73:184) (74:183) (77:176) (78:175) (79:174) (80:173) (81:172) (82:171) (83:170) 
 
 ##License
 This software is released under the MIT License, see LICENSE.txt.
 
-##Changelogs
+##Changelogs  
+2016/09/27 Version 1.0.1 bug fix: I fixed a bug in loading fastafile and calculation of dangling energy. I also changed output file format.  
 2016/08/31 Version 1.0.0 was released.
 
 ## Reference
