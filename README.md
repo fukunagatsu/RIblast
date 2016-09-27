@@ -54,19 +54,12 @@ RIblast consists of database construction search step and rna interactin search 
 
 ##Output file format
 RIblast outputs detected interactions as follows.
-An interaction is expressed in five columns.
-The first, second, third, fourth and fifth column of an interaction describes intearction id, name of query RNA, name of target RNA, interaction energy of the interaction, and interacted positions ([position in query]:[position in target]), respectively.
+An interaction is expressed in five columns.The first, second, third, fourth and fifth column of an interaction describes intearction id, name of query RNA, name of target RNA, interaction energy of the interaction, and interacted positions ([position in query]:[position in target]), respectively.
 
 Example  
-
-Target:taget_rna1  
-Energy:-7.41945  
-(4,30) (5,29) (6,28) (7,27) (8,26) (9,25) (10,24) (11,23)  
-
-Query:qrna  
-Target:taget_rna2  
-Energy:-9.9724  
-(72,185) (73,184) (74,183) (77,176) (78,175) (79,174) (80,173) (81,172) (82,171) (83,170) 
+Id,Query name, Target name, Energy, BasePair
+0,qrna,target_rna1,-7.41945,(4:30) (5:29) (6:28) (7:27) (8:26) (9:25) (10:24) (11:23)  
+1,qrna,target_rna2,-9.73221,(72:185) (73:184) (74:183) (77:176) (78:175) (79:174) (80:173) (81:172) (82:171) (83:170) 
 
 ##License
 This software is released under the MIT License, see LICENSE.txt.
