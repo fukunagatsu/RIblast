@@ -468,6 +468,10 @@ void Raccess::CalcHairpinProbability(vector<double> &hairpin_probability, vector
     if(flag == 1 && c_flag == 1){
       temp = logsumexp(temp, c_temp);
     }
+    if(flag == 0 && c_flag == 1){
+      temp = c_temp;
+      flag = 1;
+    }
     if(flag == 1){
       hairpin_probability[x-1] = exp(temp-_Alpha_outer[_seq_length]);
     }
@@ -608,6 +612,10 @@ void Raccess::CalcLogSumBulgeAndInternalProbability(vector<double> &biloop_proba
   for(int i=0;i<_seq_length;i++){
     if(b_flag_array[i]==1 && c_flag_array[i]==1){
       biloop_probability[i] = logsumexp(biloop_probability[i], conditional_biloop_probability[i]);
+    }
+    if(b_flag_array[i]==0 && c_flag_array[i]==1){
+      biloop_probability[i] = conditional_biloop_probability[i];
+      b_flag_array[i]==0;
     }
     if(b_flag_array[i]==1){
       biloop_probability[i] = exp(biloop_probability[i]-_Alpha_outer[_seq_length]);
