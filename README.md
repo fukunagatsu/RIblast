@@ -64,7 +64,7 @@ Id,Query name, Target name, Energy, p-value, BasePair
 0,qrna,target_rna1,-7.41945,(4-11:30-23)  
 1,qrna,target_rna2,-9.73221,(72-83:185-170)  
 
-If you need the information of interacted base pair, you designate the output format style as detailed output style.  
+If you need the information of interacted base pair, please designate the output format style as detailed output style.  
 
 ##License
 This software is released under the MIT License, see LICENSE.txt.
