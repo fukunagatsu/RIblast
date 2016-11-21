@@ -1,8 +1,9 @@
 /*
- * raccess.cpp
+ * raccesss.cpp
  *
- *  Created on: 2016/8/31
- *      Author: Tsukasa Fukunaga
+ *     Created on: 2016/8/31
+ *  Last modified: 2016/10/10
+ *         Author: Tsukasa Fukunaga
  */
 
 #include "raccess.h"

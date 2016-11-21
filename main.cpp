@@ -1,8 +1,9 @@
 /*
  * main.cpp
  *
- *  Created on: 2016/8/31
- *      Author: Tsukasa Fukunaga
+ *     Created on: 2016/8/31
+ *  Last modified: 2016/11/21
+ *         Author: Tsukasa Fukunaga
  */
 
 #include <cstdio>
@@ -35,7 +36,7 @@ void PrintUsage() {
   cout << " (Optional)\n";
   cout << "    -r INT    Designation of repeat masking style 0:hard-masking, 1:soft-masking, 2:no-masking [default:0]\n";
   cout << "    -s INT    Lookup table size of short string search [default: 8]\n";
-  cout << "    -w INT    The constraint of maximal distance between the bases that form base pairs [default: 70]\n";
+  cout << "    -w INT    The constraint of maximal distance between the bases that form base pairs. This parameter have to be set to 20 and over [default: 70]\n";
   cout << "    -d INT    Minimum accessible length for accessibility approximation [defualt:5]\n";
   cout << "\n";
   cout << "\n";
@@ -44,6 +45,7 @@ void PrintUsage() {
   cout << "RIblast ris [-i InputFastaFile] [-o OutputFileName] [-d DatabaseFileName]\n";
   cout << "            [-l MaxSeedLength] [-e HybridizationEnergyThreshold] [-f InteractionEnergyThreshold]\n";
   cout << "            [-x DropOutLengthInGappedExtension] [-y DropOutLengthInUngappedExtension]\n";
+  cout << "            [-g OutputEnergyThreshold] [-s OutputStyle]\n";
   cout << "\n";
   cout << "  Options:\n";
   cout << " (Required)\n";
@@ -53,10 +55,12 @@ void PrintUsage() {
   cout << "\n";
   cout << " (Optional)\n";
   cout << "    -l INT    Max size of seed length [default:20]\n";
-  cout << "    -e INT    Hybridization energy threshold for seed search [default: -6.5]\n";
-  cout << "    -f INT    Interaction energy threshold for removal of the interaction candidate before gapped extension [default: -3.05]\n";
+  cout << "    -e DOUBLE Hybridization energy threshold for seed search [default: -6.0]\n";
+  cout << "    -f DOUBLE Interaction energy threshold for removal of the interaction candidate before gapped extension [default: -4.0]\n";
   cout << "    -x INT    Dropout Length in gapped extension [defualt:18]\n";
   cout << "    -y INT    Dropout Length in ungapped extension [defualt:5]\n";
+  cout << "    -g DOUBLE Energy threshold for output [defualt:-8.0]\n";
+  cout << "    -s INT    Designation of output format style 0:simplified output 1:detailed output [defualt:0]\n";
 }
 
 int main(int argc, char* argv[]) {
@@ -69,7 +73,7 @@ int main(int argc, char* argv[]) {
     DbConstructionParameters parameters;
     parameters.SetParameters(argc - 1, argv + 1);
     if(parameters.GetMaximalSpan() < 20){
-      cout << "The constraint parameter of maximal distance should be set to 20 and over." << endl;
+      cout << "The constraint parameter of maximal distance have to be set to 20 and over." << endl;
       exit(1);
     }
     DbConstruction db_construction;

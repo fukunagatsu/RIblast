@@ -1,7 +1,8 @@
 /*
  *  seed_search.h
  *
- *  Created on: 2016/8/31
+ *     Created on: 2016/8/31
+ *  Last modified: 2016/11/21
  *      Author: Tsukasa Fukunaga
  */
 

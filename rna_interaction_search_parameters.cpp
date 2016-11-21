@@ -1,8 +1,9 @@
 /*
  * rna_interaction_search_parameters.cpp
  *
- *  Created on: 2016/8/31
- *      Author: Tsukasa Fukunaga
+ *     Created on: 2016/8/31
+ *  Last modified: 2016/11/17
+ *         Author: Tsukasa Fukunaga
  */
 
 #include "rna_interaction_search_parameters.h"
