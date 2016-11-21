@@ -73,7 +73,7 @@ The p-values are calculated based on the assumption that the interaction takes m
 This software is released under the MIT License, see LICENSE.txt.
 
 ##Changelogs  
-2016/11/21 Version 1.1.0 was released.
+2016/11/21 Version 1.1.0 was released.  
 2016/10/10 Version 1.0.2 bug fix: I fixed a bug in accessibility calculation.  
 2016/09/27 Version 1.0.1 bug fix: I fixed a bug in loading fastafile and calculation of dangling energy. I also changed output file format.  
 2016/08/31 Version 1.0.0 was released.
