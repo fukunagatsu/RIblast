@@ -61,8 +61,8 @@ An interaction is expressed in five columns.The first, second, third, fourth and
 
 Example  
 Id,Query name, Target name, Energy, p-value, BasePair  
-0,qrna,target_rna1,-7.41945,(4-11:30-23)  
-1,qrna,target_rna2,-9.73221,(72-83:185-170)  
+0,qrna,target_rna1,-14.41945,0.04,(4-21:30-13)  
+1,qrna,target_rna2,-8.73221,0.98,(72-83:185-170)  
 
 If you need the information of interacted base pair, please designate the output format style as detailed output style.  
 
