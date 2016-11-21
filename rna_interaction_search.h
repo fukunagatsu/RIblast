@@ -31,18 +31,24 @@ class RnaInteractionSearch {
       vector <int> temp2_vector; temp_vector.resize((int)pow(nucleotide_size,i+1), 0);
       _end_hash.push_back(temp_vector);
     }
+    _coefficient_a = 0.0;
+    _coefficient_b = 0.0;
+    _eta = 0.0;
   }
   void Run(const RnaInteractionSearchParameters parameters);
  private:
-  void ReadFastaFile(const RnaInteractionSearchParameters parameters, string &query_sequence, string &query_name);
+  void ReadFastaFile(const RnaInteractionSearchParameters parameters, vector<string> &sequences, vector<string> &names);
   void CalculateAccessibility(const RnaInteractionSearchParameters parameters, string &query_sequence, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility);
   void ConstructSuffixArray(const RnaInteractionSearchParameters parameters, string &query_sequence,  vector<unsigned char> &query_encoded_sequence, vector<int> &query_suffix_array);
   void SearchSeed(const RnaInteractionSearchParameters parameters, vector<Hit> &hit_result, vector<unsigned char> &query_encoded_sequence, vector<int> &query_suffix_array, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility);
   void ExtendWithoutGap(const RnaInteractionSearchParameters parameters, vector<Hit> &hit_result, vector<unsigned char> &query_encoded_sequence, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility);
   void ExtendWithGap(const RnaInteractionSearchParameters parameters, vector<Hit> &hit_result, vector<unsigned char> &query_encoded_sequence, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility);
+  double CalcPvalue(int q_length, int db_length, double energy);
+  void CalcPvalueParameter(double w);
   void GetBasePair(vector<Hit> &hit_result, vector<unsigned char> &query_encoded_sequence);
-  void Output(const RnaInteractionSearchParameters parameters, vector<Hit> &hit_result, string q_name);
+  void Output(const RnaInteractionSearchParameters parameters, vector<Hit> &hit_result, string q_name, int flag, int *count, int q_length);
   void LoadDatabase(string db_file_name, int hash_size);
+  void CheckRedundancy(vector<Hit> &hit_result, double energy_threshold);
   bool SameHitCheckWithGap(Hit a, Hit b);
   vector<vector<float> > _db_accessibility;
   vector<vector<float> > _db_conditional_accessibility;
@@ -54,6 +60,9 @@ class RnaInteractionSearch {
   vector<int> _db_seq_start_position;
   vector<int> _db_seq_length;
   int _number_of_db_seq;
+  double _coefficient_a;
+  double _coefficient_b;
+  double _eta;
 };
 
 #endif

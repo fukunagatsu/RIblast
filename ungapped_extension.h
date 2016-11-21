@@ -11,6 +11,7 @@
 #include "hit.h"
 #include <vector>
 
+
 using namespace std;
 
 class UngappedExtension {

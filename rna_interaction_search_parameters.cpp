@@ -13,7 +13,7 @@
 void RnaInteractionSearchParameters::SetParameters(int argc, char* argv[]) {
   int c;
   extern char *optarg;
-  while ((c = getopt(argc, argv, "i:o:d:l:e:y:x:f:")) != -1) {
+  while ((c = getopt(argc, argv, "i:o:d:l:e:y:x:f:g:s:")) != -1) {
     switch (c) {
     case 'i':
       _input_filename = optarg;
@@ -37,6 +37,14 @@ void RnaInteractionSearchParameters::SetParameters(int argc, char* argv[]) {
    
     case 'f':
       _interaction_energy_threshold = atof(optarg);
+      break;
+
+    case 'g':
+      _final_threshold = atof(optarg);
+      break;
+
+    case 's':
+      _output_style = atoi(optarg);
       break;
 
     case 'x':

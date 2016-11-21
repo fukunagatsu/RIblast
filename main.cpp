@@ -60,7 +60,7 @@ void PrintUsage() {
 }
 
 int main(int argc, char* argv[]) {
-  if(argc == 1 || strcmp(argv[1],"h") == 0){
+  if(argc == 1 || strcmp(argv[1],"-h") == 0){
     PrintUsage();
     exit(1);
   }
@@ -68,6 +68,10 @@ int main(int argc, char* argv[]) {
   if(strcmp(argv[1],"db") == 0){
     DbConstructionParameters parameters;
     parameters.SetParameters(argc - 1, argv + 1);
+    if(parameters.GetMaximalSpan() < 20){
+      cout << "The constraint parameter of maximal distance should be set to 20 and over." << endl;
+      exit(1);
+    }
     DbConstruction db_construction;
     db_construction.Run(parameters);
     

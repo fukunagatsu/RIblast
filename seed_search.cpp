@@ -18,8 +18,6 @@ void SeedSearch::Run(vector<unsigned char> &query_seq, vector<int> &query_suffix
 }
 
 void SeedSearch::CalcInteractionEnergy(vector<Hit> &hit_result, vector<int> &query_suffix_array, vector<int> &db_suffix_array, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility, vector<vector<float> > &db_accessibility,vector<vector<float> > &db_conditional_accessibility, vector<int> &db_seq_length, vector<int> &db_seq_start_position){
-  
-  int count = 0;
   for(int i = 0;i < _hit_candidate_result.size(); i++){
     int sp_q_sa = _hit_candidate_result[i].GetSpQSa();
     int ep_q_sa = _hit_candidate_result[i].GetEpQSa();
@@ -42,14 +40,18 @@ void SeedSearch::CalcInteractionEnergy(vector<Hit> &hit_result, vector<int> &que
       double dba = CalcAccessibility(db_accessibility[dbseq_id], db_conditional_accessibility[dbseq_id], dbseq_start, length);
       
       for(int j = sp_q_sa; j <= ep_q_sa; j++){
-	count += 1;
 	double interaction_energy = qa_vector[j-sp_q_sa] + dba + temp_score;
 	
 	if(interaction_energy < 0){
 	  Hit temp_hit( q_sp_vector[j-sp_q_sa], db_sp, length, interaction_energy);
 	  temp_hit.SetDbSeqId(dbseq_id);
 	  temp_hit.SetDbSeqIdStart(dbseq_start);
-	  hit_result.push_back(temp_hit);
+	  try{
+	    hit_result.push_back(temp_hit);
+	  }catch(bad_alloc){
+	    cerr << "The memory capacity is too small to run RIblast for this dataset" << endl;  
+	    exit(1);
+	  }
 	}
       }
     } 
