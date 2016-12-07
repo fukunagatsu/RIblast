@@ -2,7 +2,7 @@
 RIblast is ultrafast RNA-RNA interaction prediction software based on seed-and-extension algorithm for comprehensive lncRNA interactome analysis.
 
 ##Version
-Version 1.1.0 (2016/11/21)
+Version 1.1.1 (2016/12/07)
 
 ##Acknowledgements
 We used BL* energy model as RNA secondary structure energy model.
@@ -60,19 +60,17 @@ RIblast outputs detected interactions as follows.
 An interaction is expressed in five columns.The first, second, third, fourth and fifth column of an interaction describes intearction id, name of query RNA, name of target RNA, interaction energy of the interaction, and interacted regions ([region in query]:[region in target]), respectively.
 
 Example  
-Id,Query name, Target name, Energy, p-value, BasePair  
-0,qrna,target_rna1,-14.41945,0.004,(4-21:30-13)  
-1,qrna,target_rna2,-8.73221,0.86,(72-83:185-170)  
+Id,Query name, Target name, Energy, BasePair  
+0,qrna,target_rna1,-14.41945,(4-21:30-13)  
+1,qrna,target_rna2,-8.73221,(72-83:185-170)  
 
 If you need the information of interacted base pair, please designate the output format style as detailed output style.  
-
-##Note
-The p-values are calculated based on the assumption that the interaction takes minimum interaction energy among all interactions between the query RNA and the target RNA.
 
 ##License
 This software is released under the MIT License, see LICENSE.txt.
 
 ##Changelogs  
+2016/12/07 Version 1.1.1 I changed output file format.    
 2016/11/21 Version 1.1.0 was released.  
 2016/10/10 Version 1.0.2 bug fix: I fixed a bug in accessibility calculation.  
 2016/09/27 Version 1.0.1 bug fix: I fixed a bug in loading fastafile and calculation of dangling energy. I also changed output file format.  

@@ -167,7 +167,8 @@ void RnaInteractionSearch::Output(const RnaInteractionSearchParameters parameter
     exit(1);
   }
   if(flag==0){
-    ofs << "Id,Query name, Target name, Energy, p-value, BasePair"<< endl;
+    //ofs << "Id,Query name, Target name, Energy, p-value, BasePair"<< endl;
+    ofs << "Id,Query name, Target name, Energy, BasePair"<< endl;
   }
   int output_style = parameters.GetOutputStyle();
   
@@ -181,7 +182,7 @@ void RnaInteractionSearch::Output(const RnaInteractionSearchParameters parameter
     ofs << _db_seq_name[id] << ",";
     
     ofs << hit_result[i].GetEnergy() << ",";
-    ofs << CalcPvalue(q_length,db_length,hit_result[i].GetEnergy()) << ",";
+    //ofs << CalcPvalue(q_length,db_length,hit_result[i].GetEnergy()) << ",";
     int basepair_length = hit_result[i].GetBasePairLength();
     if(output_style==1){
       for(int j = 0; j<basepair_length;j++){
