@@ -616,7 +616,6 @@ void Raccess::CalcLogSumBulgeAndInternalProbability(vector<double> &biloop_proba
     }
     if(b_flag_array[i]==0 && c_flag_array[i]==1){
       biloop_probability[i] = conditional_biloop_probability[i];
-      b_flag_array[i]==0;
     }
     if(b_flag_array[i]==1){
       biloop_probability[i] = exp(biloop_probability[i]-_Alpha_outer[_seq_length]);
