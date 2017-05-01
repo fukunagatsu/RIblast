@@ -77,4 +77,4 @@ This software is released under the MIT License, see LICENSE.txt.
 2016/08/31 Version 1.0.0 was released.
 
 ## Reference
-Tsukasa Fukunaga and Michiaki Hamada. "RIblast: An ultrafast RNA-RNA interaction prediction system for comprehensive lncRNA interaction analysis" Bioinformatics (in press) (2017)
+Tsukasa Fukunaga and Michiaki Hamada. "RIblast: An ultrafast RNA-RNA interaction prediction system based on a see-and-extension approach." Bioinformatics (in press) (2017)
