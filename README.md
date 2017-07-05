@@ -1,22 +1,22 @@
 # RIblast
 RIblast is ultrafast RNA-RNA interaction prediction software based on seed-and-extension algorithm for comprehensive lncRNA interactome analysis.
 
-## Version
+##Version
 Version 1.1.1 (2016/12/07)
 
-## Acknowledgements
+##Acknowledgements
 We used BL* energy model as RNA secondary structure energy model.
 You can download this energy model from  http://www.cs.ubc.ca/labs/beta/Projects/RNA-Params
 We thank Dr. Mirela Andronescu for the development of this model.
 
-## Usage
+##Usage
 RIblast consists of database construction search step and rna interactin search step. Firstly, you have to generate formatted database files from FASTA fomatted RNA sequences file using RIblast "db" command. RIblast "db" command requires 2 options ([-i InputFastaFile] and [-o OutputDbName]). Then, you can search RNA-RNA interaction of a query seuence to database sequences using RIblast "ris" command. RIblast "ris" command requires 3 options ([-i InputFastaFile], [-o OutputFileName] and [-d DatabaseFileName]). 
 
-## Example
+##Example
     ./RIblast db -i dbRNA.fa -o test_db
     ./RIblast ris -i queryRNA.fa -o output.txt -d test_db
 
-## Command and Options
+##Command and Options
     db: convert a FASTA file to RIblast database files  
 
      RIblast db [-i InputFastaFile] [-o OutputDbName] [-r RepeatMaskingStyle]  
@@ -42,7 +42,7 @@ RIblast consists of database construction search step and rna interactin search 
                 
     Options:
     (Required)
-        -i STR    an RNA sequence in single FASTA format
+        -i STR    RNA sequences in FASTA format
         -o STR    Output file name
         -d STR    The database name
         
@@ -55,7 +55,7 @@ RIblast consists of database construction search step and rna interactin search 
         -g DBL    Energy threshold for output [defualt:-8.0]
         -s INT    Designation of output format style 0:simplified output style, 1:detailed output style [defualt:0]
 
-## Output file format
+##Output file format
 RIblast outputs detected interactions as follows.
 An interaction is expressed in five columns.The first, second, third, fourth and fifth column of an interaction describes intearction id, name of query RNA, name of target RNA, interaction energy of the interaction, and interacted regions ([region in query]:[region in target]), respectively.
 
@@ -66,10 +66,10 @@ Id,Query name, Target name, Energy, BasePair
 
 If you need the information of interacted base pair, please designate the output format style as detailed output style.  
 
-## License
+##License
 This software is released under the MIT License, see LICENSE.txt.
 
-## Changelogs  
+##Changelogs  
 2016/12/07 Version 1.1.1 I changed output file format.    
 2016/11/21 Version 1.1.0 was released.  
 2016/10/10 Version 1.0.2 bug fix: I fixed a bug in accessibility calculation.  
@@ -77,4 +77,4 @@ This software is released under the MIT License, see LICENSE.txt.
 2016/08/31 Version 1.0.0 was released.
 
 ## Reference
-Tsukasa Fukunaga and Michiaki Hamada. "RIblast: An ultrafast RNA-RNA interaction prediction system based on a see-and-extension approach." Bioinformatics (in press) (2017)
+Tsukasa Fukunaga and Michiaki Hamada. "RIblast: An ultrafast RNA-RNA interaction prediction system for comprehensive lncRNA interaction analysis" (in prepearation)

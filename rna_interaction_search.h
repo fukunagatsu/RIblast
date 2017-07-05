@@ -32,9 +32,6 @@ class RnaInteractionSearch {
       vector <int> temp2_vector; temp_vector.resize((int)pow(nucleotide_size,i+1), 0);
       _end_hash.push_back(temp_vector);
     }
-    _coefficient_a = 0.0;
-    _coefficient_b = 0.0;
-    _eta = 0.0;
   }
   void Run(const RnaInteractionSearchParameters parameters);
  private:
@@ -44,8 +41,6 @@ class RnaInteractionSearch {
   void SearchSeed(const RnaInteractionSearchParameters parameters, vector<Hit> &hit_result, vector<unsigned char> &query_encoded_sequence, vector<int> &query_suffix_array, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility);
   void ExtendWithoutGap(const RnaInteractionSearchParameters parameters, vector<Hit> &hit_result, vector<unsigned char> &query_encoded_sequence, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility);
   void ExtendWithGap(const RnaInteractionSearchParameters parameters, vector<Hit> &hit_result, vector<unsigned char> &query_encoded_sequence, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility);
-  double CalcPvalue(int q_length, int db_length, double energy);
-  void CalcPvalueParameter(double w);
   void GetBasePair(vector<Hit> &hit_result, vector<unsigned char> &query_encoded_sequence);
   void Output(const RnaInteractionSearchParameters parameters, vector<Hit> &hit_result, string q_name, int flag, int *count, int q_length);
   void LoadDatabase(string db_file_name, int hash_size);
@@ -60,10 +55,8 @@ class RnaInteractionSearch {
   vector<vector<int> > _end_hash;
   vector<int> _db_seq_start_position;
   vector<int> _db_seq_length;
+  vector<int> _db_seq_length_without_repeat;
   int _number_of_db_seq;
-  double _coefficient_a;
-  double _coefficient_b;
-  double _eta;
 };
 
 #endif
