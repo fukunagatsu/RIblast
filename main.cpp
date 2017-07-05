@@ -49,7 +49,7 @@ void PrintUsage() {
   cout << "\n";
   cout << "  Options:\n";
   cout << " (Required)\n";
-  cout << "    -i STR    an RNA sequence in single FASTA format\n";
+  cout << "    -i STR    RNA sequences in FASTA format\n";
   cout << "    -o STR    Output file name\n";
   cout << "    -d STR    The database name\n";
   cout << "\n";
@@ -72,13 +72,8 @@ int main(int argc, char* argv[]) {
   if(strcmp(argv[1],"db") == 0){
     DbConstructionParameters parameters;
     parameters.SetParameters(argc - 1, argv + 1);
-    if(parameters.GetMaximalSpan() < 20){
-      cout << "The constraint parameter of maximal distance have to be set to 20 and over." << endl;
-      exit(1);
-    }
     DbConstruction db_construction;
-    db_construction.Run(parameters);
-    
+    db_construction.Run(parameters);    
   }else if(strcmp(argv[1],"ris") == 0){
     RnaInteractionSearchParameters parameters;
     parameters.SetParameters(argc - 1, argv + 1);

@@ -42,7 +42,7 @@ RIblast consists of database construction search step and rna interactin search 
                 
     Options:
     (Required)
-        -i STR    an RNA sequence in single FASTA format
+        -i STR    RNA sequences in FASTA format
         -o STR    Output file name
         -d STR    The database name
         

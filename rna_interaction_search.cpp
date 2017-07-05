@@ -2,7 +2,7 @@
  * rna_interaction_search.cpp
  *
  *     Created on: 2016/8/31
- *  Last modified: 2016/11/21
+ *  Last modified: 2016/01/25
  *         Author: Tsukasa Fukunaga
  */
 
@@ -14,8 +14,8 @@
 #include "seed_search.h"
 #include "ungapped_extension.h"
 #include "gapped_extension.h"
-#include "calc_pvalue.h"
 #include <fstream>
+#include <math.h>
 #include <algorithm>
 
 bool compare( const Hit& left, const Hit& right ) {
@@ -40,8 +40,8 @@ void RnaInteractionSearch::Run(const RnaInteractionSearchParameters parameters){
   
   LoadDatabase(parameters.GetDbFilename(), parameters.GetHashSize());
   ReadFastaFile(parameters, sequences, names);
-  CalcPvalueParameter(parameters.GetMaximalSpan());
   int count = 0;
+  cout << "RIblast ris mode has started." << endl;
   for(int i = 0; i<sequences.size();i++){
     vector<unsigned char> query_encoded_sequence; query_encoded_sequence.reserve(10);
     vector<int> query_suffix_array;
@@ -49,17 +49,24 @@ void RnaInteractionSearch::Run(const RnaInteractionSearchParameters parameters){
     vector<float> query_conditional_accessibility; query_conditional_accessibility.reserve(10);
     string query_sequence = sequences[i];
     string query_name = names[i];
-    int q_length = query_sequence.size();
-
+    cout << "Rna interaction search of query:" << names[i] << " has started." << endl;
     CalculateAccessibility(parameters, query_sequence, query_accessibility, query_conditional_accessibility);
     ConstructSuffixArray(parameters, query_sequence, query_encoded_sequence, query_suffix_array);
     vector<Hit> hit_result; hit_result.reserve(50000000);
     SearchSeed(parameters,hit_result, query_encoded_sequence, query_suffix_array, query_accessibility, query_conditional_accessibility);
     ExtendWithoutGap(parameters,hit_result, query_encoded_sequence, query_accessibility, query_conditional_accessibility);
     ExtendWithGap(parameters,hit_result, query_encoded_sequence, query_accessibility, query_conditional_accessibility);
-    Output(parameters,hit_result,query_name,i,&count,q_length);
+    int length_count = 0;
+    for(int i= 0; i<query_encoded_sequence.size();i++){
+      if(query_encoded_sequence[i]>=2 && query_encoded_sequence[i]<=5){
+	length_count++;
+      }
+    }
+    Output(parameters,hit_result,query_name,i,&count,length_count);
     hit_result.clear();
+    cout << "Rna interaction search of query:" << names[i] << " has finished." << endl;
   }
+  cout << "RIblast ris mode has finished." << endl;
 }
 
 void RnaInteractionSearch::ReadFastaFile(const RnaInteractionSearchParameters parameters, vector<string> &sequences, vector<string> &names){
@@ -67,54 +74,7 @@ void RnaInteractionSearch::ReadFastaFile(const RnaInteractionSearchParameters pa
   fastafile_reader.ReadFastafile(parameters.GetInputFilename(), sequences, names);
 };
 
-void RnaInteractionSearch::CalcPvalueParameter(double w){
-  vector<double> mu; mu.reserve(10);
-  if(w>=300){
-    _eta = eta_array[TEST_W_SIZE-1];
-    for(int j = 1;j <TEST_LENGTH_SIZE; j++){
-      mu.push_back(mu_array[j][TEST_W_SIZE-1]);
-    }
-  }else{
-    for(int i = 0; i< TEST_W_SIZE-1;i++){
-      if(w >= w_array[i] && w < w_array[i+1]){
-	int diff_w = w_array[i+1] - w_array[i];
-	double diff_eta = eta_array[i+1] - eta_array[i];
-	_eta = eta_array[i] + diff_eta * ((double)(w - w_array[i])/(double)diff_w); 
-	for(int j = 0;j <TEST_LENGTH_SIZE; j++){
-	  if(!(j==0 && w>200)){
-	    double diff_mu = mu_array[j][i+1] - mu_array[j][i];
-	    mu.push_back(mu_array[j][i] + diff_mu * ((double)(w - w_array[i])/(double)diff_w));
-	  }
-	}
-	break;
-      }
-    }
-  }
-  double sum_x = 0.0;
-  double sum_y = 0.0;
-  double sum_xy = 0.0;
-  double squared_sum_x = 0.0;
-  
-  if(w<=200){
-    for(int i = 0; i<TEST_LENGTH_SIZE;i++){
-      sum_x += lnMN_array[i];
-      sum_y += mu[i];
-      sum_xy += lnMN_array[i]*mu[i];
-      squared_sum_x += lnMN_array[i]*lnMN_array[i];
-    }
-    _coefficient_a = (TEST_LENGTH_SIZE*sum_xy - sum_x*sum_y)/(TEST_LENGTH_SIZE*squared_sum_x - sum_x*sum_x);
-    _coefficient_b = (squared_sum_x*sum_y - sum_x*sum_xy)/(TEST_LENGTH_SIZE*squared_sum_x - sum_x*sum_x);
-  }else{
-    for(int i = 0; i<TEST_LENGTH_SIZE-1;i++){
-      sum_x += lnMN_array[i+1];
-      sum_y += mu[i];
-      sum_xy += lnMN_array[i+1]*mu[i];
-      squared_sum_x += lnMN_array[i+1]* lnMN_array[i+1];
-    }
-    _coefficient_a = ((TEST_LENGTH_SIZE-1)*sum_xy - sum_x*sum_y)/((TEST_LENGTH_SIZE-1)*squared_sum_x - sum_x*sum_x);
-    _coefficient_b = (squared_sum_x*sum_y - sum_x*sum_xy)/((TEST_LENGTH_SIZE-1)*squared_sum_x - sum_x*sum_x);
-  }
-};
+
 
 void RnaInteractionSearch::CalculateAccessibility(const RnaInteractionSearchParameters parameters, string &query_sequence, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility){
   FastafileReader fastafile_reader;
@@ -159,6 +119,8 @@ void RnaInteractionSearch::Output(const RnaInteractionSearchParameters parameter
   ofstream ofs;
   if(flag==0){
     ofs.open(parameters.GetOutputFilename().c_str(),ios::out);
+    ofs << "RIblast ris result"<< endl;
+    ofs << "input:" <<parameters.GetInputFilename() <<",database:" <<parameters.GetDbFilename()<<",RepeatFlag:" <<parameters.GetRepeatFlag()<<",MaximalSpan:" << parameters.GetMaximalSpan() <<",MinAccessibleLength:" << parameters.GetMinAccessibleLength() << ",MaxSeedLength:"<< parameters.GetMaxSeedLength() << ",InteractionEnergyThreshold:" << parameters.GetInteractionEnergyThreshold() << ",HybridEnergyThreshold:" << parameters.GetHybridEnergyThreshold() << ",FinalThreshold:" << parameters.GetFinalThreshold() << ",DropOutLengthWoGap:" << parameters.GetDropOutLengthWoGap() << ",DropOutLengthWGap:" << parameters.GetDropOutLengthWGap() << endl;
   }else{
     ofs.open(parameters.GetOutputFilename().c_str(),ios::app);
   }
@@ -167,8 +129,7 @@ void RnaInteractionSearch::Output(const RnaInteractionSearchParameters parameter
     exit(1);
   }
   if(flag==0){
-    //ofs << "Id,Query name, Target name, Energy, p-value, BasePair"<< endl;
-    ofs << "Id,Query name, Target name, Energy, BasePair"<< endl;
+    ofs << "Id,Query name, Query Length, Target name, Target Length, Energy, BasePair"<< endl;
   }
   int output_style = parameters.GetOutputStyle();
   
@@ -176,13 +137,14 @@ void RnaInteractionSearch::Output(const RnaInteractionSearchParameters parameter
     ofs << *count << ",";
     *count += 1;
     int id = hit_result[i].GetDbSeqId();
-    int db_length = _db_seq_length[id];
+    int db_length = _db_seq_length_without_repeat[id];
     int seq_start_position = _db_seq_start_position[id];
     ofs << q_name << ",";
+    ofs << q_length << ",";
     ofs << _db_seq_name[id] << ",";
-    
+    ofs << db_length << ",";
     ofs << hit_result[i].GetEnergy() << ",";
-    //ofs << CalcPvalue(q_length,db_length,hit_result[i].GetEnergy()) << ",";
+    db_length = _db_seq_length[id];
     int basepair_length = hit_result[i].GetBasePairLength();
     if(output_style==1){
       for(int j = 0; j<basepair_length;j++){
@@ -198,11 +160,6 @@ void RnaInteractionSearch::Output(const RnaInteractionSearchParameters parameter
     ofs << endl;
   }
   ofs.close();
-}
-
-double RnaInteractionSearch::CalcPvalue(int q_length, int db_length, double energy){
-  double estimated_mu = _coefficient_a*log(q_length*db_length)+_coefficient_b;
-  return(1-exp(-exp(-(-energy-estimated_mu)/_eta)));
 }
 
 void RnaInteractionSearch::GetBasePair(vector<Hit> &hit_result, vector<unsigned char> &query_encoded_sequence){
@@ -223,6 +180,7 @@ void RnaInteractionSearch::CheckRedundancy(vector<Hit> &hit_result, double energ
     if(hit_result[i].GetEnergy() > energy_threshold){
       hit_result[i].SetFlag();
     }
+
     if(!hit_result[i].GetFlag()){
       int a_QSp = hit_result[i].GetQSp();
       int a_DbSp = hit_result[i].GetDbSp();
@@ -240,13 +198,18 @@ void RnaInteractionSearch::CheckRedundancy(vector<Hit> &hit_result, double energ
           int b_QEp = b_QSp+hit_result[j].GetQLength()-1;
           int b_DbEp = b_DbSp+hit_result[j].GetDbLength()-1;
           if(a_QEp>=b_QEp && a_QSp <= b_QSp && a_DbEp >= b_DbEp){
-            hit_result[j].SetFlag();
+	    if(hit_result[i].GetEnergy() > hit_result[j].GetEnergy()){
+	      hit_result[i].SetFlag();
+	    }else{
+	      hit_result[j].SetFlag();
+	    }
           }
         }
       }
     }
   }
   hit_result.erase(remove_if(hit_result.begin(), hit_result.end(), CheckFlag()), hit_result.end());
+
 }
 
 
@@ -282,7 +245,16 @@ void RnaInteractionSearch::LoadDatabase(string db_file_name, int hash_size){
     ifs.read(reinterpret_cast<char*>(&*c_it),sizeof(unsigned char));
   }
   ifs.close();
-  
+  double length_count = 0;
+  for(int i= 0; i<_db_seq.size();i++){
+    if(_db_seq[i] == 0){
+      _db_seq_length_without_repeat.push_back(length_count);
+      length_count = 0;
+    }else if(_db_seq[i]>=2 && _db_seq[i]<=5){
+      length_count++;
+    }
+  }
+  _db_seq_length_without_repeat.push_back(length_count);
   //load acc file
   ifs.open((db_file_name+".acc").c_str(), ios::in | ios::binary);
   if (!ifs){
