@@ -74,8 +74,8 @@ If you need the information of interacted base pair, please designate the output
 This software is released under the MIT License, see LICENSE.txt.
 
 ## Changelogs  
-2017/07/06 Version 1.1.2 I changed output file format. 
-2016/12/07 Version 1.1.1 I changed output file format.    
+2017/07/06 Version 1.1.2 I changed output file format.  
+2016/12/07 Version 1.1.1 I changed output file format.  
 2016/11/21 Version 1.1.0 was released.  
 2016/10/10 Version 1.0.2 bug fix: I fixed a bug in accessibility calculation.  
 2016/09/27 Version 1.0.1 bug fix: I fixed a bug in loading fastafile and calculation of dangling energy. I also changed output file format.  
