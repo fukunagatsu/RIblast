@@ -2,7 +2,7 @@
 RIblast is ultrafast RNA-RNA interaction prediction software based on seed-and-extension algorithm for comprehensive lncRNA interactome analysis.
 
 ## Version
-Version 1.1.1 (2016/12/07)
+Version 1.1.2 (2017/07/06)
 
 ## Acknowledgements
 We used BL* energy model as RNA secondary structure energy model.
@@ -59,17 +59,22 @@ RIblast consists of database construction search step and rna interactin search 
 RIblast outputs detected interactions as follows.
 An interaction is expressed in five columns.The first, second, third, fourth and fifth column of an interaction describes intearction id, name of query RNA, name of target RNA, interaction energy of the interaction, and interacted regions ([region in query]:[region in target]), respectively.
 
-Example  
-Id,Query name, Target name, Energy, BasePair  
-0,qrna,target_rna1,-14.41945,(4-21:30-13)  
-1,qrna,target_rna2,-8.73221,(72-83:185-170)  
+Example:  
 
-If you need the information of interacted base pair, please designate the output format style as detailed output style.  
+RIblast ris result  
+input:test_input.txt,database:test_db,RepeatFlag:0,MaximalSpan:100,MinAccessibleLength:3,MaxSeedLength:20,InteractionEnergyThreshold:0,HybridEnergyThreshold:3,FinalThreshold:0,DropOutLengthWoGap:5,DropOutLengthWGap:16  
+Id,Query name, Query Length, Target name, Target Length, Energy, BasePair  
+0,qrna,100,target_rna1,200,-14.41945,(4-21:30-13)  
+1,qrna,100,target_rna2,150,-8.73221,(72-83:185-170)  
+
+Query Length and Target Length means the region of non-repeat region when repeat sequences are masked.  
+If you need the information of interacted base pair, please designate the output format style as detailed output style.
 
 ## License
 This software is released under the MIT License, see LICENSE.txt.
 
 ## Changelogs  
+2017/07/06 Version 1.1.2 I changed output file format. 
 2016/12/07 Version 1.1.1 I changed output file format.    
 2016/11/21 Version 1.1.0 was released.  
 2016/10/10 Version 1.0.2 bug fix: I fixed a bug in accessibility calculation.  
