@@ -57,8 +57,8 @@ void RnaInteractionSearch::Run(const RnaInteractionSearchParameters parameters){
     ExtendWithoutGap(parameters,hit_result, query_encoded_sequence, query_accessibility, query_conditional_accessibility);
     ExtendWithGap(parameters,hit_result, query_encoded_sequence, query_accessibility, query_conditional_accessibility);
     int length_count = 0;
-    for(int i= 0; i<query_encoded_sequence.size();i++){
-      if(query_encoded_sequence[i]>=2 && query_encoded_sequence[i]<=5){
+    for(int j= 0; j<query_encoded_sequence.size();j++){
+      if(query_encoded_sequence[j]>=2 && query_encoded_sequence[j]<=5){
 	length_count++;
       }
     }
