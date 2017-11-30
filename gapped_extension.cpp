@@ -229,9 +229,9 @@ double GappedExtension::CalcDangleEnergy(int q_pos, int db_pos, int flag, vector
 	x += TerminalAU;
       }
     }else{
-      if (db_pos< dbseq_length-1) x += dangle5_37[type][GetChar(db_seq,db_pos+1)];
+      if (db_pos < db_seq.size()-1 && db_seq[db_pos+1] != 0) x += dangle5_37[type][GetChar(db_seq,db_pos+1)];
       if (q_pos< q_length-1) x += dangle3_37[type][GetChar(query_seq,q_pos+1)];
-      if( db_pos == dbseq_length && type>2){
+      if((db_pos == db_seq.size()-1 || db_seq[db_pos+1]==0) && type>2){
 	x += TerminalAU;
       }
     }
