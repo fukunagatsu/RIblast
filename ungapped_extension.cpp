@@ -15,6 +15,11 @@ void UngappedExtension::Run(vector<Hit> &candidate, vector<unsigned char> &query
   for(int x = 0; x < candidate.size(); x++){
     double min_energy = candidate[x].GetEnergy();
     double energy = candidate[x].GetEnergy();
+    double min_a_energy = candidate[x].GetAccessibilityEnergy();
+    double a_energy = candidate[x].GetAccessibilityEnergy();
+    double min_h_energy = candidate[x].GetHybridizationEnergy();
+    double h_energy = candidate[x].GetHybridizationEnergy();
+    
     int i = candidate[x].GetQSp(); int p = candidate[x].GetQSp();
     int j = candidate[x].GetDbSp(); int q = candidate[x].GetDbSp();
     int min_p = p; int min_q = q;
@@ -27,8 +32,12 @@ void UngappedExtension::Run(vector<Hit> &candidate, vector<unsigned char> &query
       if(i < 0 || j < 0 || query_seq[i] < 2 || db_seq[j] < 2){
 	break;
       }
-      energy += query_accessibility[i] - query_accessibility[i+1] + query_conditional_accessibility[i+_min_accessible_length];
-      energy += db_conditional_accessibility[db_seq_id][db_seq_id_end];
+      double temp_accessibility = query_accessibility[i] - query_accessibility[i+1]
+					  + query_conditional_accessibility[i+_min_accessible_length]
+					  + db_conditional_accessibility[db_seq_id][db_seq_id_end];
+      energy += temp_accessibility;
+      a_energy += temp_accessibility;
+      
       int q_char = query_seq[i] <=5 ? query_seq[i]-1 : query_seq[i]-5;
       int db_char = db_seq[j] <=5 ? db_seq[j]-1 : db_seq[j]-5;
       int type = BP_pair[q_char][db_char];
@@ -38,8 +47,11 @@ void UngappedExtension::Run(vector<Hit> &candidate, vector<unsigned char> &query
 	int type2 = BP_pair[q_char2][db_char2];
 	type2 = rtype[type2];
 	energy += LoopEnergy(type, type2, i, j, p, q, query_seq, db_seq);
+	h_energy += LoopEnergy(type, type2, i, j, p, q, query_seq, db_seq);
 	if(energy < min_energy){
 	  min_energy = energy;
+	  min_a_energy = a_energy;
+	  min_h_energy = h_energy;
 	  min_p = i;
 	  min_q = j;
 	}
@@ -54,17 +66,24 @@ void UngappedExtension::Run(vector<Hit> &candidate, vector<unsigned char> &query
     }
 
     energy = min_energy;
+    a_energy = min_a_energy;
+    h_energy = min_h_energy;
     int k = candidate[x].GetQSp() + candidate[x].GetQLength()-1; int r = candidate[x].GetQSp() + candidate[x].GetQLength()-1;
     int l = candidate[x].GetDbSp() + candidate[x].GetQLength()-1; int s = candidate[x].GetDbSp() + candidate[x].GetQLength()-1;
     int min_r = r; int min_s = s;
+    
     while(true){
       k++; l++;
       db_seq_id_start--;
       if(query_seq[k] < 2 || db_seq[l] < 2){
 	break;
       }
-      energy += query_conditional_accessibility[k];
-      energy += db_accessibility[db_seq_id][db_seq_id_start] - db_accessibility[db_seq_id][db_seq_id_start+1] + db_conditional_accessibility[db_seq_id][db_seq_id_start+_min_accessible_length];
+      double temp_accessibility = query_conditional_accessibility[k] + db_accessibility[db_seq_id][db_seq_id_start]
+			- db_accessibility[db_seq_id][db_seq_id_start+1]
+			+ db_conditional_accessibility[db_seq_id][db_seq_id_start+_min_accessible_length];
+      energy += temp_accessibility;
+      a_energy += temp_accessibility;
+      
       int q_char2 = query_seq[k] <=5 ? query_seq[k]-1 : query_seq[k]-5;
       int db_char2 = db_seq[l] <=5 ? db_seq[l]-1 : db_seq[l]-5;
       int type2 = BP_pair[q_char2][db_char2];
@@ -74,8 +93,12 @@ void UngappedExtension::Run(vector<Hit> &candidate, vector<unsigned char> &query
 	int db_char = db_seq[s] <=5 ? db_seq[s]-1 : db_seq[s]-5;
 	int type = BP_pair[q_char][db_char];
 	energy += LoopEnergy(type, type2, r, s, k, l, query_seq, db_seq);
+	h_energy += LoopEnergy(type, type2, r, s, k, l, query_seq, db_seq);
+	
 	if(energy < min_energy){
 	  min_energy = energy;
+	  min_a_energy = a_energy;
+	  min_h_energy = h_energy;
 	  min_r = k;
 	  min_s = l;
 	  min_db_seq_id_start = db_seq_id_start;
@@ -93,6 +116,8 @@ void UngappedExtension::Run(vector<Hit> &candidate, vector<unsigned char> &query
     candidate[x].SetQLength(min_r-min_p+1);
     candidate[x].SetDbLength(min_r-min_p+1);
     candidate[x].SetEnergy(min_energy);
+    candidate[x].SetAccessibilityEnergy(min_a_energy);
+    candidate[x].SetHybridizationEnergy(min_h_energy);
   }
 }
 

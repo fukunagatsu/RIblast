@@ -21,6 +21,7 @@ class DbConstructionParameters{
   int _repeat_flag;
   int _maximal_span;
   int _min_accessible_length;
+  double _accessibility_threshold;
   
  public:
   DbConstructionParameters(){
@@ -30,6 +31,7 @@ class DbConstructionParameters{
     _repeat_flag = 0;
     _maximal_span = 70;
     _min_accessible_length = 5;
+    _accessibility_threshold = 4.5;
   }
   void SetParameters(int argc, char* argv[]);
   
@@ -55,6 +57,10 @@ class DbConstructionParameters{
 
   int GetMinAccessibleLength() const {
     return _min_accessible_length;
+  }
+
+  double GetAccessibilityThreshold() const{
+    return _accessibility_threshold;
   }
 };
 

@@ -24,13 +24,13 @@ public:
 
 class Cell{
 public:
-  Cell(int a, int b, double c, double d){
-    first = a; second = b; interaction_energy = c; hybrid_energy = d;
+  Cell(int a, int b, int c, double d){
+    first = a; second = b; type = c; hybrid_energy = d;
   }
-  void set(int a, int b, double c, double d){
-    first = a; second = b; interaction_energy = c; hybrid_energy = d;
+  void set(int a, int b, int c, double d){
+    first = a; second = b; type = c; hybrid_energy = d;
   }
-  int first; int second; double hybrid_energy; double interaction_energy;
+  int first; int second; double hybrid_energy; int type;
 };
 
 class CheckStemCandidate{
@@ -45,21 +45,26 @@ private:
 
 class GappedExtension {
  public:
-  GappedExtension(int a, int x){
+  GappedExtension(int a, int x, int m){
     _min_accessible_length = a;
     _drop_out_score = x;
+    _min_helix_length = m;
   }
   void Run(vector<Hit> &candidate, vector<unsigned char> &query_seq, vector<unsigned char> &db_seq, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility, vector<vector<float> > &db_accessibility,vector<vector<float> > &db_conditional_accessibility, vector<int> &db_seq_length);
 
  private:
   int _min_accessible_length;
   int _drop_out_score;
+  int _min_helix_length;
 
   int GetChar(vector<unsigned char> &seq, int i);
+  int GetBPType(int flag, vector<unsigned char> &query_seq, vector<unsigned char> &db_seq, int q_start, int db_start,int i, int j,int x);
+  int CheckHelixLength(int flag, vector<unsigned char> &query_seq, vector<unsigned char> &db_seq, int q_start, int db_start,int i, int j, vector<vector<Cell> > &matrix_c);
   void traceback(Hit &candidate, vector<vector<Cell> > &matrix_c, int i,int i_start, int j, int j_start, bool flag);
   void extension(Hit &candidate, vector<unsigned char> &query_seq, vector<unsigned char> &db_seq, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility, vector<vector<float> > &db_accessibility,vector<vector<float> > &db_conditional_accessibility, bool flag);
   double LoopEnergy(int type, int type2,int i,int j,int p,int q, vector<unsigned char> &query_seq, vector<unsigned char> &db_seq);
   double CalcDangleEnergy(int q_pos, int db_pos, int flag, vector<unsigned char> &query_seq, vector<unsigned char> &db_seq, int dbseq_length);
+  bool CheckWobble(int type);
 };
 
 #endif

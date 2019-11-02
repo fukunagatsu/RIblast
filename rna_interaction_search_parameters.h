@@ -26,12 +26,13 @@ class RnaInteractionSearchParameters{
   int _maximal_span;
   int _min_accessible_length;
   int _max_seed_length;
+  double _accessibility_threshold;
   double _interaction_energy_threshold;
   double _hybrid_energy_threshold;
   double _final_threshold;
   int _drop_out_length_wo_gap;
   int _drop_out_length_w_gap;
-  
+  int _min_helix_length;
  public:
   RnaInteractionSearchParameters(){
     _db_filename = "";
@@ -39,14 +40,16 @@ class RnaInteractionSearchParameters{
     _hash_size = 0;
     _repeat_flag = 0;
     _maximal_span = 0;
-     _min_accessible_length = 0;
-     _output_style = 0;
+    _min_accessible_length = 0;
+    _output_style = 0;
     _max_seed_length = 20;
+    _accessibility_threshold = 0.0;
     _hybrid_energy_threshold = -6.0;
     _interaction_energy_threshold = -4;
     _final_threshold = -8.0;
     _drop_out_length_wo_gap = 5;
     _drop_out_length_w_gap = 16;
+    _min_helix_length = 3;
   }
   void SetParameters(int argc, char* argv[]);
   void SetDbParameters();
@@ -107,6 +110,14 @@ class RnaInteractionSearchParameters{
     return _output_style;
   }
 
+  int GetMinHelixLength() const {
+    return _min_helix_length;
+  }
+
+  double GetAccessibilityThreshold() const{
+    return _accessibility_threshold;
+  }
+
   void SetHashSize(int a) {
     _hash_size = a;
   }
@@ -121,6 +132,10 @@ class RnaInteractionSearchParameters{
 
   void SetMinAccessibleLength(int a) {
     _min_accessible_length = a;
+  }
+
+  void SetAccessibilityThreshold(double a){
+    _accessibility_threshold = a;
   }
 };
 

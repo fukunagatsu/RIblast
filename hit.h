@@ -23,14 +23,16 @@ public:
 
 class Hit{
  public:
-  Hit(int q_sp, int db_sp, int length, double energy){
+  Hit(int q_sp, int db_sp, int length, double accessiblity_energy, double hybridization_energy){
     _dbseq_id = -1;
     _dbseq_id_start = -1;
     _q_sp = q_sp;
     _db_sp = db_sp;
     _q_length = length;
     _db_length = length;
-    _energy = energy;
+    _accessibility_energy = accessiblity_energy;
+    _hybridization_energy = hybridization_energy;
+    _energy = accessiblity_energy + hybridization_energy;
     _flag = false;
     _base_pair.reserve(10);
   }
@@ -67,6 +69,14 @@ class Hit{
     return _base_pair.size();
   }
 
+  double GetAccessibilityEnergy() const{
+    return _accessibility_energy;
+  }
+
+  double GetHybridizationEnergy() const{
+    return _hybridization_energy;
+  }
+
   double GetEnergy() const{
     return _energy;
   }
@@ -81,6 +91,14 @@ class Hit{
   
   int GetBasePairSecond(int i) const{
     return(_base_pair[i].dbpos);
+  }
+
+  void SetAccessibilityEnergy(double a){
+    _accessibility_energy = a;
+  }
+
+  void SetHybridizationEnergy(double a){
+    _hybridization_energy = a;
   }
 
   void SetEnergy(double a){
@@ -130,6 +148,8 @@ class Hit{
   int _db_sp;
   int _q_length;
   int _db_length;
+  double _accessibility_energy;
+  double _hybridization_energy;
   double _energy;
   bool _flag;
   vector<BasePair> _base_pair;

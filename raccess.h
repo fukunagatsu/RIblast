@@ -20,9 +20,11 @@ using namespace std;
 
 class Raccess {
  public:
-  Raccess(string db_name, int w, int delta) {
+  Raccess(string db_name, int w, int delta, double th) {
     _maximal_span = w;
     _min_accessible_length = delta;
+    _accessibility_threshold = th;
+    
     if(db_name.size() == 0){
       cerr << "Error: -o option is required." << endl;
       exit(1);
@@ -40,12 +42,14 @@ class Raccess {
       exit(1);
     }
     _seq_length = 0;
+    
 
     set_energy_parameters();
   }
-  Raccess(int w, int delta) {
+  Raccess(int w, int delta, double th) {
     _maximal_span = w;
     _min_accessible_length = delta;
+    _accessibility_threshold = th;
     set_energy_parameters();
   }
   
@@ -73,6 +77,7 @@ class Raccess {
   int _seq_length;
   int _maximal_span;
   int _min_accessible_length;
+  double _accessibility_threshold;
   string _db_name;
   
   vector<double> _Alpha_outer;
@@ -147,8 +152,8 @@ class Raccess {
   void Initiallize(string &sequence);
   void CalcInsideVariable();
   void CalcOutsideVariable();
-  void CalcAccessibility();
-  void CalcAccessibility(vector<float> &accessibility, vector<float> &conditional_accessibility);
+  void CalcAccessibility(string &sequence);
+  void CalcAccessibility(string &sequence, vector<float> &accessibility, vector<float> &conditional_accessibility);
   double CalcExteriorProbability(int x, int w);
   void CalcHairpinProbability(vector<double> &hairpin_probability, vector<double> &conditional_hairpin_probability);
   double CalcMultiProbability(int x, int w);

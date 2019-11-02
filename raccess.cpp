@@ -7,6 +7,7 @@
  */
 
 #include "raccess.h"
+#include "fmath.hpp"
 #include <algorithm>
 #include <iostream>
 #include <fstream>
@@ -18,9 +19,7 @@ void Raccess::Run(string &sequence){
   Initiallize(sequence);
   CalcInsideVariable();
   CalcOutsideVariable();
-  start = clock();
-  CalcAccessibility();
-  end = clock();
+  CalcAccessibility(sequence);
   Clear();
 }
 
@@ -28,7 +27,7 @@ void Raccess::Run(string &sequence, vector<float> &accessibility, vector<float> 
   Initiallize(sequence);
   CalcInsideVariable();
   CalcOutsideVariable();
-  CalcAccessibility(accessibility, conditional_accessibility);
+  CalcAccessibility(sequence, accessibility, conditional_accessibility);
   Clear();
 }
 
@@ -340,11 +339,11 @@ void Raccess::CalcOutsideVariable(){
 }
 
 double Raccess::logsumexp(double x,double y){
-  double temp = x > y ? x + log(exp(y-x) + 1.0) : y + log(exp(x-y) + 1.0) ;
+  double temp = x > y ? x + (double)fmath::log((float)(fmath::expd(y-x) + 1.0)) : y + (double)fmath::log((float)(fmath::expd(x-y) + 1.0)) ;
   return(temp);
 }
 
-void Raccess::CalcAccessibility(){
+void Raccess::CalcAccessibility(string &sequence){
   double prob = 0.0;
   float accessibility = 0.0;
   vector<float> accessibility_array; accessibility_array.resize(_seq_length, 0.0);
@@ -371,8 +370,13 @@ void Raccess::CalcAccessibility(){
     prob += hairpin_probability[i-1];
     prob += biloop_probability[i-1];
     prob += CalcMultiProbability(i,_min_accessible_length);
-    accessibility = (-log(prob)*kT)/1000;
+    accessibility = (-fmath::log((float)prob)*kT)/1000;
     //cout << accessibility << endl;
+    if(accessibility > _accessibility_threshold){
+      for(int j = 0; j < _min_accessible_length; j++){
+	sequence[i+j] = '$';
+      }
+    }
     accessibility_array[i-1] = accessibility;
     of.write(reinterpret_cast<const char*>(&accessibility), sizeof(float));
     prob = 0.0;
@@ -390,14 +394,14 @@ void Raccess::CalcAccessibility(){
     prob += conditional_hairpin_probability[i-1];
     prob += conditional_biloop_probability[i-1];
     prob += CalcMultiProbability(i,_min_accessible_length+1);
-    conditional_accessibility = (-log(prob)*kT)/1000 - accessibility_array[i-1];
+    conditional_accessibility = (-fmath::log((float)prob)*kT)/1000 - accessibility_array[i-1];
     of.write(reinterpret_cast<const char*>(&conditional_accessibility), sizeof(float));
     prob = 0.0;
   }
   of.close();
 }
 
-void Raccess::CalcAccessibility(vector<float> &accessibility, vector<float> &conditional_accessibility){
+void Raccess::CalcAccessibility(string &sequence,vector<float> &accessibility, vector<float> &conditional_accessibility){
   double prob = 0.0;
   accessibility.resize(_seq_length, 0.0);
   conditional_accessibility.resize(_seq_length, 0.0);
@@ -421,7 +425,12 @@ void Raccess::CalcAccessibility(vector<float> &accessibility, vector<float> &con
     prob += hairpin_probability[i-1];
     prob += biloop_probability[i-1];
     prob += CalcMultiProbability(i,_min_accessible_length);
-    accessibility[i-1] = (float)(-log(prob)*kT)/1000;
+    accessibility[i-1] = (-fmath::log((float)prob)*kT)/1000;
+    if(accessibility[i-1] > _accessibility_threshold){
+      for(int j = 0; j < _min_accessible_length; j++){
+	sequence[i+j] = '$';
+      }
+    }
     prob = 0.0;
   }
   
@@ -430,13 +439,13 @@ void Raccess::CalcAccessibility(vector<float> &accessibility, vector<float> &con
     prob += conditional_hairpin_probability[i-1];
     prob += conditional_biloop_probability[i-1];
     prob += CalcMultiProbability(i,_min_accessible_length+1);
-    conditional_accessibility[i+_min_accessible_length-1] = (float)(-log(prob)*kT)/1000 - accessibility[i-1];
+    conditional_accessibility[i+_min_accessible_length-1] = (-fmath::log((float)prob)*kT)/1000 - accessibility[i-1];
     prob = 0.0;
   }
 }
 
 double Raccess::CalcExteriorProbability(int x, int w){
-  double probability = exp(_Alpha_outer[x-1]+_Beta_outer[x+w-1]-_Alpha_outer[_seq_length]);
+  double probability = fmath::expd(_Alpha_outer[x-1]+_Beta_outer[x+w-1]-_Alpha_outer[_seq_length]);
   return(probability);
 }
 
@@ -474,10 +483,10 @@ void Raccess::CalcHairpinProbability(vector<double> &hairpin_probability, vector
       flag = 1;
     }
     if(flag == 1){
-      hairpin_probability[x-1] = exp(temp-_Alpha_outer[_seq_length]);
+      hairpin_probability[x-1] = fmath::expd(temp-_Alpha_outer[_seq_length]);
     }
     if(c_flag == 1){
-      conditional_hairpin_probability[x-1] = exp(c_temp-_Alpha_outer[_seq_length]);
+      conditional_hairpin_probability[x-1] = fmath::expd(c_temp-_Alpha_outer[_seq_length]);
     }
   }
 }
@@ -500,7 +509,7 @@ double Raccess::CalcMultiProbability(int x, int w){
       flag = 1;
     }
   }
-  if(flag == 1){ probability = exp(temp-_Alpha_outer[_seq_length]); }
+  if(flag == 1){ probability = fmath::expd(temp-_Alpha_outer[_seq_length]); }
   return(probability);
 }
 
@@ -524,7 +533,7 @@ void Raccess::CalcBulgeAndInternalProbability(vector<double> &biloop_probability
 	    if (type2 != 0 && !(p == i+1 && q == j-1)) {
 	      type2 = rtype[type2];
 	      if(_Beta_stemend[i][j-i-1] != -INF && _Alpha_stem[p-1][q-p+1] != -INF){
-		temp = exp(_Beta_stemend[i][j-i-1] + LoopEnergy(type, type2,i,j,p,q)+_Alpha_stem[p-1][q-p+1]);
+		temp = fmath::expd(_Beta_stemend[i][j-i-1] + LoopEnergy(type, type2,i,j,p,q)+_Alpha_stem[p-1][q-p+1]);
 		
 		for(int k = i+1; k <= p-w;k++){
 		  if(k == p-w){
@@ -551,12 +560,12 @@ void Raccess::CalcBulgeAndInternalProbability(vector<double> &biloop_probability
   
   for(int i=0;i<_seq_length;i++){
     if(biloop_probability[i] != 0){
-      biloop_probability[i] = log(biloop_probability[i] + conditional_biloop_probability[i]);
-      biloop_probability[i] = exp(biloop_probability[i]-_Alpha_outer[_seq_length]);
+      biloop_probability[i] = fmath::log((float)(biloop_probability[i] + conditional_biloop_probability[i]));
+      biloop_probability[i] = fmath::expd(biloop_probability[i]-_Alpha_outer[_seq_length]);
     }
     if(conditional_biloop_probability[i] != 0){
-      conditional_biloop_probability[i] = log(conditional_biloop_probability[i]);
-      conditional_biloop_probability[i] = exp(conditional_biloop_probability[i]-_Alpha_outer[_seq_length]);
+      conditional_biloop_probability[i] = fmath::log((float)(conditional_biloop_probability[i]));
+      conditional_biloop_probability[i] = fmath::expd(conditional_biloop_probability[i]-_Alpha_outer[_seq_length]);
     }
   }
 }
@@ -618,10 +627,10 @@ void Raccess::CalcLogSumBulgeAndInternalProbability(vector<double> &biloop_proba
       biloop_probability[i] = conditional_biloop_probability[i];
     }
     if(b_flag_array[i]==1){
-      biloop_probability[i] = exp(biloop_probability[i]-_Alpha_outer[_seq_length]);
+      biloop_probability[i] = fmath::expd(biloop_probability[i]-_Alpha_outer[_seq_length]);
     }
     if(c_flag_array[i]==1){
-      conditional_biloop_probability[i] = exp(conditional_biloop_probability[i]-_Alpha_outer[_seq_length]);
+      conditional_biloop_probability[i] = fmath::expd(conditional_biloop_probability[i]-_Alpha_outer[_seq_length]);
     }
   }
 }

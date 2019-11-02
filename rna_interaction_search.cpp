@@ -78,7 +78,7 @@ void RnaInteractionSearch::ReadFastaFile(const RnaInteractionSearchParameters pa
 
 void RnaInteractionSearch::CalculateAccessibility(const RnaInteractionSearchParameters parameters, string &query_sequence, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility){
   FastafileReader fastafile_reader;
-  Raccess raccess(parameters.GetMaximalSpan(), parameters.GetMinAccessibleLength());
+  Raccess raccess(parameters.GetMaximalSpan(), parameters.GetMinAccessibleLength(), parameters.GetAccessibilityThreshold());
   raccess.Run(query_sequence, query_accessibility, query_conditional_accessibility);
 };
 
@@ -106,7 +106,7 @@ void RnaInteractionSearch::ExtendWithoutGap(const RnaInteractionSearchParameters
 }
 
 void RnaInteractionSearch::ExtendWithGap(const RnaInteractionSearchParameters parameters, vector<Hit> &hit_result, vector<unsigned char> &query_encoded_sequence, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility){
-  GappedExtension gapped_extension(parameters.GetMinAccessibleLength(), parameters.GetDropOutLengthWGap());
+  GappedExtension gapped_extension(parameters.GetMinAccessibleLength(), parameters.GetDropOutLengthWGap(), parameters.GetMinHelixLength());
   gapped_extension.Run(hit_result, query_encoded_sequence, _db_seq, query_accessibility, query_conditional_accessibility, _db_accessibility, _db_conditional_accessibility, _db_seq_length);
   for(int i = 1; i<hit_result.size();i++){
     hit_result[i].SortBasePair();
@@ -129,7 +129,7 @@ void RnaInteractionSearch::Output(const RnaInteractionSearchParameters parameter
     exit(1);
   }
   if(flag==0){
-    ofs << "Id,Query name, Query Length, Target name, Target Length, Energy, BasePair"<< endl;
+    ofs << "Id,Query name, Query Length, Target name, Target Length, Accessibility Energy, Hybridization Energy, Interaction Energy, BasePair"<< endl;
   }
   int output_style = parameters.GetOutputStyle();
   
@@ -143,6 +143,8 @@ void RnaInteractionSearch::Output(const RnaInteractionSearchParameters parameter
     ofs << q_length << ",";
     ofs << _db_seq_name[id] << ",";
     ofs << db_length << ",";
+    ofs << hit_result[i].GetAccessibilityEnergy() << ",";
+    ofs << hit_result[i].GetHybridizationEnergy() << ",";
     ofs << hit_result[i].GetEnergy() << ",";
     db_length = _db_seq_length[id];
     int basepair_length = hit_result[i].GetBasePairLength();

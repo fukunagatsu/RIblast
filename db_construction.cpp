@@ -38,7 +38,7 @@ void DbConstruction::ReadFastaFile(const DbConstructionParameters parameters,  v
 }
 
 void DbConstruction::CalculateAccessibility(const DbConstructionParameters parameters, vector<string> &sequences){
-  Raccess raccess(parameters.GetDbFilename(), parameters.GetMaximalSpan(), parameters.GetMinAccessibleLength());
+  Raccess raccess(parameters.GetDbFilename(), parameters.GetMaximalSpan(), parameters.GetMinAccessibleLength(), parameters.GetAccessibilityThreshold());
   for (int i = 0; i < sequences.size() ; i++){
     raccess.Run(sequences[i]);
   }
@@ -123,11 +123,12 @@ void DbConstruction::SaveBasicInformation(DbConstructionParameters parameters, v
   int repeat_flag = parameters.GetRepeatFlag();
   int maximal_span = parameters.GetMaximalSpan();
   int min_accessible_length = parameters.GetMinAccessibleLength();
+  double accessibility_threshold = parameters.GetAccessibilityThreshold();
   of.write(reinterpret_cast<const char*>(&hash_size), sizeof(int));
   of.write(reinterpret_cast<const char*>(&repeat_flag), sizeof(int));
   of.write(reinterpret_cast<const char*>(&maximal_span), sizeof(int));
   of.write(reinterpret_cast<const char*>(&min_accessible_length), sizeof(int));
-
+  of.write(reinterpret_cast<const char*>(&accessibility_threshold), sizeof(double));
   of.close();
   of.open((parameters.GetDbFilename()+".nam").c_str(), ios::out);
   for(int i = 0; i < names.size(); i++){

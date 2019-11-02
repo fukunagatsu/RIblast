@@ -44,7 +44,7 @@ void SeedSearch::CalcInteractionEnergy(vector<Hit> &hit_result, vector<int> &que
 	double interaction_energy = qa_vector[j-sp_q_sa] + dba + temp_score;
 	
 	if(interaction_energy < 0){
-	  Hit temp_hit( q_sp_vector[j-sp_q_sa], db_sp, length, interaction_energy);
+	  Hit temp_hit( q_sp_vector[j-sp_q_sa], db_sp, length, qa_vector[j-sp_q_sa] + dba, temp_score);
 	  temp_hit.SetDbSeqId(dbseq_id);
 	  temp_hit.SetDbSeqIdStart(dbseq_start);
 	  try{

@@ -14,7 +14,7 @@
 void RnaInteractionSearchParameters::SetParameters(int argc, char* argv[]) {
   int c;
   extern char *optarg;
-  while ((c = getopt(argc, argv, "i:o:d:l:e:y:x:f:g:s:")) != -1) {
+  while ((c = getopt(argc, argv, "i:o:d:l:e:y:x:f:g:s:m:")) != -1) {
     switch (c) {
     case 'i':
       _input_filename = optarg;
@@ -56,6 +56,10 @@ void RnaInteractionSearchParameters::SetParameters(int argc, char* argv[]) {
       _drop_out_length_wo_gap = atoi(optarg);
       break;
 
+    case 'm':
+      _min_helix_length = atoi(optarg);
+      break;
+
     default:
       cerr << "Error: The argument is invalid command." << endl;
       exit(1);
@@ -78,5 +82,8 @@ void RnaInteractionSearchParameters::SetDbParameters(){
   SetMaximalSpan(temp_i);
   ifs.read(reinterpret_cast<char*>(&temp_i), sizeof(int));
   SetMinAccessibleLength(temp_i);
+  double temp_f = 0.0;
+  ifs.read(reinterpret_cast<char*>(&temp_f), sizeof(double));
+  SetAccessibilityThreshold(temp_f);
   ifs.close();
 }
