@@ -2,7 +2,7 @@
 RIblast is ultrafast RNA-RNA interaction prediction software based on seed-and-extension algorithm for comprehensive lncRNA interactome analysis.
 
 ## Version
-Version 1.1.3 (2017/11/30)
+Version 1.2.0 (2019/11/02)
 
 ## Acknowledgements
 We used BL* energy model as RNA secondary structure energy model.
@@ -63,9 +63,9 @@ Example:  
 
 RIblast ris result  
 input:test_input.txt,database:test_db,RepeatFlag:0,MaximalSpan:100,MinAccessibleLength:3,MaxSeedLength:20,InteractionEnergyThreshold:0,HybridEnergyThreshold:3,FinalThreshold:0,DropOutLengthWoGap:5,DropOutLengthWGap:16  
-Id,Query name, Query Length, Target name, Target Length, Energy, BasePair  
-0,qrna,100,target_rna1,200,-14.41945,(4-21:30-13)  
-1,qrna,100,target_rna2,150,-8.73221,(72-83:185-170)  
+Id,Query name, Query Length, Target name, Target Length, Accessibility Energy, Hybridization Energy, Interaction Energy, BasePair  
+0,qrna,100,target_rna1,200,9.44198,-19.66,-10.218,(4-21:30-13)  
+1,qrna,100,target_rna2,150,5.95465,-15.06,-9.10535,(72-83:185-170)  
 
 Query Length and Target Length means the region of non-repeat region when repeat sequences are masked.  
 If you need the information of interacted base pair, please designate the output format style as detailed output style.
@@ -73,10 +73,11 @@ If you need the information of interacted base pair, please designate the output
 ## License
 This software is released under the MIT License, see LICENSE.txt.
 
-## Changelogs  
+## Changelogs
+2019/11/02 Version 1.2.0 was released. The calculation speed is about twice as fast as before.  
 2017/11/30 Version 1.1.3 buf fix:calculation of dangling energy.  
 2017/07/06 Version 1.1.2 I changed output file format.  
-2016/12/07 Version 1.1.1 I changed output file format.  
+2016/12/07 Version 1.1.1 I changed output file format.  
 2016/11/21 Version 1.1.0 was released.  
 2016/10/10 Version 1.0.2 bug fix: I fixed a bug in accessibility calculation.  
 2016/09/27 Version 1.0.1 bug fix: I fixed a bug in loading fastafile and calculation of dangling energy. I also changed output file format.  
