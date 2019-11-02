@@ -78,7 +78,7 @@ void RnaInteractionSearch::ReadFastaFile(const RnaInteractionSearchParameters pa
 
 void RnaInteractionSearch::CalculateAccessibility(const RnaInteractionSearchParameters parameters, string &query_sequence, vector<float> &query_accessibility, vector<float> &query_conditional_accessibility){
   FastafileReader fastafile_reader;
-  Raccess raccess(parameters.GetMaximalSpan(), parameters.GetMinAccessibleLength(), parameters.GetAccessibilityThreshold());
+  Raccess raccess(parameters.GetMaximalSpan(), parameters.GetMinAccessibleLength());
   raccess.Run(query_sequence, query_accessibility, query_conditional_accessibility);
 };
 

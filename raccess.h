@@ -20,10 +20,9 @@ using namespace std;
 
 class Raccess {
  public:
-  Raccess(string db_name, int w, int delta, double th) {
+  Raccess(string db_name, int w, int delta) {
     _maximal_span = w;
     _min_accessible_length = delta;
-    _accessibility_threshold = th;
     
     if(db_name.size() == 0){
       cerr << "Error: -o option is required." << endl;
@@ -46,10 +45,9 @@ class Raccess {
 
     set_energy_parameters();
   }
-  Raccess(int w, int delta, double th) {
+  Raccess(int w, int delta) {
     _maximal_span = w;
     _min_accessible_length = delta;
-    _accessibility_threshold = th;
     set_energy_parameters();
   }
   
@@ -77,7 +75,6 @@ class Raccess {
   int _seq_length;
   int _maximal_span;
   int _min_accessible_length;
-  double _accessibility_threshold;
   string _db_name;
   
   vector<double> _Alpha_outer;

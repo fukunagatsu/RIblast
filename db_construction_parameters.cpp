@@ -38,10 +38,6 @@ void DbConstructionParameters::SetParameters(int argc, char* argv[]) {
       _min_accessible_length = atoi(optarg);
       break;
 
-    case 't':
-      _accessibility_threshold = atof(optarg);
-      break;
-
     default:
       cerr << "The argument is invalid command." << endl;
       exit(1);

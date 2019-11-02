@@ -26,7 +26,6 @@ class RnaInteractionSearchParameters{
   int _maximal_span;
   int _min_accessible_length;
   int _max_seed_length;
-  double _accessibility_threshold;
   double _interaction_energy_threshold;
   double _hybrid_energy_threshold;
   double _final_threshold;
@@ -43,7 +42,6 @@ class RnaInteractionSearchParameters{
     _min_accessible_length = 0;
     _output_style = 0;
     _max_seed_length = 20;
-    _accessibility_threshold = 0.0;
     _hybrid_energy_threshold = -6.0;
     _interaction_energy_threshold = -4;
     _final_threshold = -8.0;
@@ -114,10 +112,6 @@ class RnaInteractionSearchParameters{
     return _min_helix_length;
   }
 
-  double GetAccessibilityThreshold() const{
-    return _accessibility_threshold;
-  }
-
   void SetHashSize(int a) {
     _hash_size = a;
   }
@@ -132,10 +126,6 @@ class RnaInteractionSearchParameters{
 
   void SetMinAccessibleLength(int a) {
     _min_accessible_length = a;
-  }
-
-  void SetAccessibilityThreshold(double a){
-    _accessibility_threshold = a;
   }
 };
 

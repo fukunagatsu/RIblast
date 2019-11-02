@@ -371,12 +371,6 @@ void Raccess::CalcAccessibility(string &sequence){
     prob += biloop_probability[i-1];
     prob += CalcMultiProbability(i,_min_accessible_length);
     accessibility = (-fmath::log((float)prob)*kT)/1000;
-    //cout << accessibility << endl;
-    if(accessibility > _accessibility_threshold){
-      for(int j = 0; j < _min_accessible_length; j++){
-	sequence[i+j] = '$';
-      }
-    }
     accessibility_array[i-1] = accessibility;
     of.write(reinterpret_cast<const char*>(&accessibility), sizeof(float));
     prob = 0.0;
@@ -426,11 +420,6 @@ void Raccess::CalcAccessibility(string &sequence,vector<float> &accessibility, v
     prob += biloop_probability[i-1];
     prob += CalcMultiProbability(i,_min_accessible_length);
     accessibility[i-1] = (-fmath::log((float)prob)*kT)/1000;
-    if(accessibility[i-1] > _accessibility_threshold){
-      for(int j = 0; j < _min_accessible_length; j++){
-	sequence[i+j] = '$';
-      }
-    }
     prob = 0.0;
   }
   

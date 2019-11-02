@@ -82,8 +82,5 @@ void RnaInteractionSearchParameters::SetDbParameters(){
   SetMaximalSpan(temp_i);
   ifs.read(reinterpret_cast<char*>(&temp_i), sizeof(int));
   SetMinAccessibleLength(temp_i);
-  double temp_f = 0.0;
-  ifs.read(reinterpret_cast<char*>(&temp_f), sizeof(double));
-  SetAccessibilityThreshold(temp_f);
   ifs.close();
 }
