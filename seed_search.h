@@ -48,7 +48,7 @@ class SeedSearch {
   void GetSeqIdAndStart(vector<int> &db_seq_length, vector<int> &db_seq_start_position, int* seq_id, int* start, int sp, int length);
   void SeedSearchCore(vector<unsigned char> &query_seq, vector<int> &query_suffix_array, vector<unsigned char> &db_seq, vector<int> &db_suffix_array,  vector<vector<int> > &_start_hash,  vector<vector<int> > &_end_hash,vector<int> &db_seed, vector<int> &q_seed, int sp_q, int ep_q, int sp_db, int ep_db, double score, int length);
   void SeedSearchNextCharacter(vector<unsigned char> &encoded_sequences, vector<int> &suffix_array, int* start, int* end, unsigned char c, int offset);
-  double CalcAccessibility(vector<float> accessibility, vector<float> conditional_accessibility, int sp, int length);
+  double CalcAccessibility(vector<float> &accessibility, vector<float> &conditional_accessibility, int sp, int length);
 };
 
 #endif

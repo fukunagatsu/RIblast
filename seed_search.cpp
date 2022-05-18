@@ -97,7 +97,7 @@ void SeedSearch::GetSeqIdAndStart(vector<int> &db_seq_length, vector<int> &db_se
   return;
 }
 
-double SeedSearch::CalcAccessibility(vector<float> accessibility, vector<float> conditional_accessibility, int sp, int length){
+double SeedSearch::CalcAccessibility(vector<float> &accessibility, vector<float> &conditional_accessibility, int sp, int length){
   double temp = accessibility[sp];
   for(int i =_min_accessible_length; i < length; i++){
     temp += conditional_accessibility[sp+i];
