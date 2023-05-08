@@ -1,5 +1,27 @@
-CXXFLAGS = -O3
+CXX=g++
+CXXFLAGS=-std=c++17 -flto -O3 -march=native
 
-RIblast: main.cpp db_construction_parameters.cpp db_construction.cpp  fastafile_reader.cpp encoder.cpp sais.c raccess.cpp energy_par.h rna_interaction_search.cpp rna_interaction_search_parameters.cpp seed_search.cpp ungapped_extension.cpp gapped_extension.cpp
+LD=g++
+LDFLAGS=-flto=auto
 
-	$(CXX) $(CXXFLAGS) -o RIblast main.cpp db_construction_parameters.cpp fastafile_reader.cpp db_construction.cpp encoder.cpp raccess.cpp rna_interaction_search.cpp rna_interaction_search_parameters.cpp ungapped_extension.cpp seed_search.cpp gapped_extension.cpp -x c sais.c
+SRCSDIR=src
+OBJSDIR=obj
+DESTDIR=target
+
+SRCS=$(wildcard $(SRCSDIR)/*.cpp)
+OBJS=$(patsubst $(SRCSDIR)/%.cpp,$(OBJSDIR)/%.o,$(SRCS))
+DEPS=$(patsubst $(SRCSDIR)/%.cpp,$(OBJSDIR)/%.d,$(SRCS))
+
+RIblast: $(OBJS)
+	@mkdir -p $(DESTDIR)
+	$(LD) $(LDFLAGS) -o $(DESTDIR)/$@ $^ $(LDLIBS)
+
+-include $(DEPS)
+
+$(OBJSDIR)/%.o: $(SRCSDIR)/%.cpp
+	@mkdir -p $(OBJSDIR)
+	$(CXX) $(CXXFLAGS) -MMD -MP -c $< -o $@
+
+c: clean
+clean:
+	rm -rf $(OBJSDIR) $(DESTDIR)
